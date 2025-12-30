@@ -1,0 +1,91 @@
+.card {
+    background-color: var(--md-sys-color-surface-container);
+    border-radius: var(--md-sys-shape-corner-extra-large);
+    padding: 32px 24px;
+    text-align: center;
+    position: sticky;
+    top: 100px;
+    box-shadow: var(--md-sys-elevation-level1);
+}
+
+.avatarContainer {
+    margin-bottom: 16px;
+}
+
+.avatar {
+    border-radius: var(--md-sys-shape-corner-full);
+    object-fit: cover;
+    border: 3px solid var(--md-sys-color-primary);
+}
+
+.name {
+    font-size: var(--md-sys-typescale-title-large-size);
+    line-height: var(--md-sys-typescale-title-large-line-height);
+    color: var(--md-sys-color-on-surface);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.bio {
+    font-size: var(--md-sys-typescale-body-medium-size);
+    line-height: var(--md-sys-typescale-body-medium-line-height);
+    color: var(--md-sys-color-on-surface-variant);
+    margin-bottom: 24px;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.linkButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background-color: transparent;
+    border: 1px solid var(--md-sys-color-outline-variant);
+    color: var(--md-sys-color-on-surface);
+    font-size: var(--md-sys-typescale-label-large-size);
+    font-weight: 500;
+    text-decoration: none;
+    transition: all var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+}
+
+.linkButton:hover {
+    background-color: rgba(var(--md-sys-color-surface-tint-rgb), var(--md-sys-state-hover-state-layer-opacity));
+    border-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-primary);
+}
+
+.linkButton svg {
+    flex-shrink: 0;
+}
+
+.cvButton {
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    border-color: transparent;
+}
+
+.cvButton:hover {
+    background-color: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    box-shadow: var(--md-sys-elevation-level2);
+}
+
+@media (max-width: 1024px) {
+    .card {
+        position: static;
+        margin-bottom: 32px;
+    }
+
+    .links {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

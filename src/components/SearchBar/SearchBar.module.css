@@ -1,0 +1,271 @@
+.container {
+    position: relative;
+}
+
+.trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: var(--md-sys-color-surface-container-high);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: var(--md-sys-shape-corner-full);
+    color: var(--md-sys-color-on-surface-variant);
+    font-family: var(--font-family);
+    font-size: var(--md-sys-typescale-body-medium-size);
+    cursor: pointer;
+    transition: all var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+}
+
+.trigger:hover {
+    background-color: var(--md-sys-color-surface-container-highest);
+    border-color: var(--md-sys-color-outline);
+}
+
+.triggerText {
+    min-width: 60px;
+}
+
+.shortcut {
+    padding: 2px 6px;
+    background-color: var(--md-sys-color-surface-container);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: var(--md-sys-shape-corner-extra-small);
+    font-size: var(--md-sys-typescale-label-small-size);
+    font-family: inherit;
+}
+
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+    animation: fadeIn var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+}
+
+.modal {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    background-color: var(--md-sys-color-surface-container);
+    border-radius: var(--md-sys-shape-corner-extra-large);
+    box-shadow: var(--md-sys-elevation-level5);
+    z-index: 101;
+    animation: slideIn var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized-decelerate);
+    overflow: hidden;
+}
+
+.form {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.searchIcon {
+    flex-shrink: 0;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--font-family);
+    font-size: var(--md-sys-typescale-body-large-size);
+    color: var(--md-sys-color-on-surface);
+}
+
+.input::placeholder {
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--md-sys-color-outline-variant);
+    border-top-color: var(--md-sys-color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.closeButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.closeButton kbd {
+    padding: 4px 8px;
+    background-color: var(--md-sys-color-surface-container-high);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: var(--md-sys-shape-corner-small);
+    font-size: var(--md-sys-typescale-label-medium-size);
+    font-family: inherit;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Results */
+.results {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.resultItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 24px;
+    text-decoration: none;
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+    transition: background-color var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard);
+}
+
+.resultItem:last-child {
+    border-bottom: none;
+}
+
+.resultItem:hover,
+.resultItem.selected {
+    background-color: rgba(var(--md-sys-color-surface-tint-rgb), var(--md-sys-state-hover-state-layer-opacity));
+}
+
+.resultItem.selected {
+    background-color: rgba(var(--md-sys-color-surface-tint-rgb), 0.12);
+}
+
+.resultContent {
+    flex: 1;
+    min-width: 0;
+}
+
+.resultTitle {
+    font-size: var(--md-sys-typescale-title-small-size);
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resultExcerpt {
+    font-size: var(--md-sys-typescale-body-small-size);
+    color: var(--md-sys-color-on-surface-variant);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.resultMeta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.resultDate,
+.resultTime {
+    font-size: var(--md-sys-typescale-label-small-size);
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.noResults {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 24px;
+    text-align: center;
+}
+
+.noResultsIcon {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.noResults p {
+    font-size: var(--md-sys-typescale-body-medium-size);
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Tips */
+.tips {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 16px 24px;
+    background-color: var(--md-sys-color-surface-container-low);
+}
+
+.tip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--md-sys-typescale-label-small-size);
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.tip kbd {
+    padding: 2px 6px;
+    background-color: var(--md-sys-color-surface-container);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: var(--md-sys-shape-corner-extra-small);
+    font-family: inherit;
+    font-size: var(--md-sys-typescale-label-small-size);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .triggerText,
+    .shortcut {
+        display: none;
+    }
+
+    .trigger {
+        padding: 10px;
+    }
+
+    .tips {
+        display: none;
+    }
+
+    .resultItem {
+        padding: 12px 16px;
+    }
+}

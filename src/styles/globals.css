@@ -1,0 +1,221 @@
+/* ===========================================
+   BAYSTHENE BLOG - Global Styles
+   =========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import './tokens.css';
+@import './highlight.css';
+
+/* === RESET & BASE === */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--md-sys-typescale-body-large-size);
+    line-height: var(--md-sys-typescale-body-large-line-height);
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
+    min-height: 100vh;
+    transition: background-color var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard),
+        color var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-standard);
+}
+
+/* === TYPOGRAPHY UTILITIES === */
+.display-large {
+    font-size: var(--md-sys-typescale-display-large-size);
+    line-height: var(--md-sys-typescale-display-large-line-height);
+    font-weight: var(--md-sys-typescale-display-large-weight);
+}
+
+.display-medium {
+    font-size: var(--md-sys-typescale-display-medium-size);
+    line-height: var(--md-sys-typescale-display-medium-line-height);
+}
+
+.display-small {
+    font-size: var(--md-sys-typescale-display-small-size);
+    line-height: var(--md-sys-typescale-display-small-line-height);
+}
+
+.headline-large {
+    font-size: var(--md-sys-typescale-headline-large-size);
+    line-height: var(--md-sys-typescale-headline-large-line-height);
+}
+
+.headline-medium {
+    font-size: var(--md-sys-typescale-headline-medium-size);
+    line-height: var(--md-sys-typescale-headline-medium-line-height);
+}
+
+.headline-small {
+    font-size: var(--md-sys-typescale-headline-small-size);
+    line-height: var(--md-sys-typescale-headline-small-line-height);
+}
+
+.title-large {
+    font-size: var(--md-sys-typescale-title-large-size);
+    line-height: var(--md-sys-typescale-title-large-line-height);
+}
+
+.title-medium {
+    font-size: var(--md-sys-typescale-title-medium-size);
+    line-height: var(--md-sys-typescale-title-medium-line-height);
+    font-weight: 500;
+}
+
+.title-small {
+    font-size: var(--md-sys-typescale-title-small-size);
+    line-height: var(--md-sys-typescale-title-small-line-height);
+    font-weight: 500;
+}
+
+.body-large {
+    font-size: var(--md-sys-typescale-body-large-size);
+    line-height: var(--md-sys-typescale-body-large-line-height);
+}
+
+.body-medium {
+    font-size: var(--md-sys-typescale-body-medium-size);
+    line-height: var(--md-sys-typescale-body-medium-line-height);
+}
+
+.body-small {
+    font-size: var(--md-sys-typescale-body-small-size);
+    line-height: var(--md-sys-typescale-body-small-line-height);
+}
+
+.label-large {
+    font-size: var(--md-sys-typescale-label-large-size);
+    line-height: var(--md-sys-typescale-label-large-line-height);
+    font-weight: 500;
+}
+
+.label-medium {
+    font-size: var(--md-sys-typescale-label-medium-size);
+    line-height: var(--md-sys-typescale-label-medium-line-height);
+    font-weight: 500;
+}
+
+.label-small {
+    font-size: var(--md-sys-typescale-label-small-size);
+    line-height: var(--md-sys-typescale-label-small-line-height);
+    font-weight: 500;
+}
+
+/* === LINKS === */
+a {
+    color: var(--md-sys-color-primary);
+    text-decoration: none;
+    transition: color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+}
+
+a:hover {
+    color: var(--md-sys-color-primary-container);
+}
+
+/* === CONTAINER === */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+}
+
+/* === CARDS === */
+.card {
+    background-color: var(--md-sys-color-surface-container);
+    border-radius: var(--md-sys-shape-corner-large);
+    box-shadow: var(--md-sys-elevation-level1);
+    transition: box-shadow var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-standard),
+        transform var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-standard);
+}
+
+.card:hover {
+    box-shadow: var(--md-sys-elevation-level2);
+    transform: translateY(-2px);
+}
+
+/* === BUTTONS === */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border: none;
+    border-radius: var(--md-sys-shape-corner-full);
+    font-family: var(--font-family);
+    font-size: var(--md-sys-typescale-label-large-size);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+}
+
+.btn-primary {
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+}
+
+.btn-primary:hover {
+    box-shadow: var(--md-sys-elevation-level1);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--md-sys-color-primary);
+    border: 1px solid var(--md-sys-color-outline);
+}
+
+.btn-outline:hover {
+    background-color: rgba(var(--md-sys-color-surface-tint-rgb), var(--md-sys-state-hover-state-layer-opacity));
+}
+
+/* === ICON BUTTONS === */
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: var(--md-sys-shape-corner-full);
+    background-color: transparent;
+    color: var(--md-sys-color-on-surface-variant);
+    cursor: pointer;
+    transition: background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+}
+
+.icon-btn:hover {
+    background-color: rgba(var(--md-sys-color-surface-tint-rgb), var(--md-sys-state-hover-state-layer-opacity));
+}
+
+/* === SR ONLY (Accessibility) === */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
