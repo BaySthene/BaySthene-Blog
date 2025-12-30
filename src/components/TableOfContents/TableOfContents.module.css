@@ -1,0 +1,167 @@
+.toc {
+    position: sticky;
+    top: 100px;
+    padding: 0;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+.tocInner {
+    background: linear-gradient(135deg,
+            var(--md-sys-color-surface-container) 0%,
+            var(--md-sys-color-surface-container-high) 100%);
+    border-radius: var(--md-sys-shape-corner-extra-large);
+    padding: 24px;
+    border: 1px solid var(--md-sys-color-outline-variant);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.headerIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--md-sys-color-primary) 0%, var(--md-sys-color-tertiary) 100%);
+    border-radius: var(--md-sys-shape-corner-medium);
+    color: var(--md-sys-color-on-primary);
+}
+
+.title {
+    font-size: var(--md-sys-typescale-title-small-size);
+    font-weight: 600;
+    color: var(--md-sys-color-on-surface);
+    margin: 0;
+}
+
+.subtitle {
+    font-size: var(--md-sys-typescale-label-small-size);
+    color: var(--md-sys-color-on-surface-variant);
+    margin-top: 2px;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.item {
+    margin: 0;
+}
+
+.item.nested {
+    padding-left: 20px;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    font-size: var(--md-sys-typescale-body-small-size);
+    color: var(--md-sys-color-on-surface-variant);
+    text-decoration: none;
+    border-radius: var(--md-sys-shape-corner-medium);
+    transition: all var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized);
+    position: relative;
+    overflow: hidden;
+}
+
+.linkIndicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--md-sys-color-outline);
+    flex-shrink: 0;
+    transition: all var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized);
+}
+
+.link:hover {
+    background-color: var(--md-sys-color-surface-container-highest);
+    color: var(--md-sys-color-on-surface);
+}
+
+.link:hover .linkIndicator {
+    background-color: var(--md-sys-color-primary);
+}
+
+.link.active {
+    background: linear-gradient(135deg, var(--md-sys-color-primary-container) 0%, var(--md-sys-color-tertiary-container) 100%);
+    color: var(--md-sys-color-on-primary-container);
+    font-weight: 500;
+    transform: scale(1.02);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.link.active .linkIndicator {
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(135deg, var(--md-sys-color-primary) 0%, var(--md-sys-color-tertiary) 100%);
+    box-shadow: 0 0 8px var(--md-sys-color-primary);
+}
+
+/* Progress indicator */
+.progress {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--md-sys-color-outline-variant);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.progressLabel {
+    font-size: var(--md-sys-typescale-label-small-size);
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.progressBar {
+    flex: 1;
+    height: 4px;
+    background-color: var(--md-sys-color-surface-container-highest);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--md-sys-color-primary) 0%, var(--md-sys-color-tertiary) 100%);
+    border-radius: 2px;
+    transition: width var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-standard);
+}
+
+/* Custom scrollbar */
+.toc::-webkit-scrollbar {
+    width: 4px;
+}
+
+.toc::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.toc::-webkit-scrollbar-thumb {
+    background-color: var(--md-sys-color-outline-variant);
+    border-radius: 2px;
+}
+
+@media (max-width: 1200px) {
+    .toc {
+        position: relative;
+        top: 0;
+        max-height: none;
+        margin-bottom: 24px;
+    }
+}

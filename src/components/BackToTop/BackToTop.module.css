@@ -1,0 +1,91 @@
+.button {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--md-sys-color-primary) 0%, var(--md-sys-color-tertiary) 100%);
+    color: var(--md-sys-color-on-primary);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.15),
+        0 0 0 0 var(--md-sys-color-primary);
+    z-index: 1000;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8) translateY(20px);
+    transition: all var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized);
+}
+
+.button.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateY(0);
+}
+
+.button:hover {
+    transform: scale(1.1) translateY(-4px);
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.2),
+        0 0 0 4px var(--md-sys-color-primary-container);
+}
+
+.button:active {
+    transform: scale(0.95) translateY(0);
+}
+
+.progressRing {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    pointer-events: none;
+}
+
+.progressBg {
+    stroke: rgba(255, 255, 255, 0.2);
+}
+
+.progressFill {
+    stroke: var(--md-sys-color-on-primary);
+    stroke-linecap: round;
+    transition: stroke-dashoffset var(--md-sys-motion-duration-short3) linear;
+}
+
+.icon {
+    position: relative;
+    z-index: 1;
+    transition: transform var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+}
+
+.button:hover .icon {
+    transform: translateY(-2px);
+    animation: bounce 0.6s ease infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(-2px);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@media (max-width: 600px) {
+    .button {
+        bottom: 24px;
+        right: 24px;
+        width: 48px;
+        height: 48px;
+    }
+}

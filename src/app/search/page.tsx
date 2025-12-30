@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import BlogCard from '@/components/BlogCard';
+import InfinitePostList from '@/components/InfinitePostList';
 import { searchPosts, getAllPosts } from '@/lib/markdown';
 import styles from './page.module.css';
 
@@ -12,9 +12,14 @@ export const metadata: Metadata = {
     description: 'Blog yazılarında arama yapın',
 };
 
+const POSTS_PER_PAGE = 6;
+
 export default async function SearchPage({ searchParams }: SearchPageProps) {
     const { q: query } = await searchParams;
-    const posts = query ? searchPosts(query) : getAllPosts();
+    const allPosts = query ? searchPosts(query) : getAllPosts();
+
+    // Get initial posts for SSR
+    const initialPosts = allPosts.slice(0, POSTS_PER_PAGE);
 
     return (
         <div className={styles.container}>
@@ -22,19 +27,17 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                 <h1 className={styles.title}>
                     {query ? `"${query}" için sonuçlar` : 'Tüm Yazılar'}
                 </h1>
-                {query && (
-                    <p className={styles.resultCount}>
-                        {posts.length} yazı bulundu
-                    </p>
-                )}
+                <p className={styles.resultCount}>
+                    {allPosts.length} yazı {query ? 'bulundu' : 'mevcut'}
+                </p>
             </div>
 
-            {posts.length > 0 ? (
-                <div className={styles.grid}>
-                    {posts.map((post) => (
-                        <BlogCard key={post.slug} post={post} />
-                    ))}
-                </div>
+            {allPosts.length > 0 ? (
+                <InfinitePostList
+                    initialPosts={initialPosts}
+                    query={query}
+                    postsPerPage={POSTS_PER_PAGE}
+                />
             ) : (
                 <div className={styles.emptyState}>
                     <div className={styles.emptyIcon}>🔍</div>

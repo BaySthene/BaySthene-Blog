@@ -1,0 +1,20 @@
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: transparent;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.bar {
+    height: 100%;
+    background: linear-gradient(90deg,
+            var(--md-sys-color-primary) 0%,
+            var(--md-sys-color-tertiary) 100%);
+    transition: width 50ms linear;
+    border-radius: 0 2px 2px 0;
+    box-shadow: 0 0 10px var(--md-sys-color-primary);
+}

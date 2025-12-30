@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import styles from './BlogCard.module.css';
 import { BlogPostMeta } from '@/lib/types';
+import { getShimmerPlaceholder } from '@/lib/image';
 
 interface BlogCardProps {
     post: BlogPostMeta;
@@ -25,6 +26,8 @@ export default function BlogCard({ post, variant = 'default' }: BlogCardProps) {
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className={styles.image}
+                        placeholder="blur"
+                        blurDataURL={getShimmerPlaceholder(400, 225)}
                     />
                 </div>
             </Link>

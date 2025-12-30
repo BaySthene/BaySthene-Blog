@@ -36,11 +36,11 @@
 
 | Özellik | Durum | Öncelik |
 |---------|-------|---------|
-| RSS Feed | 🔲 Bekliyor | Yüksek |
-| Sitemap | 🔲 Bekliyor | Yüksek |
-| Reading Progress Bar | 🔲 Bekliyor | Orta |
-| Table of Contents | 🔲 Bekliyor | Orta |
-| Infinite Scroll | 🔲 Bekliyor | Orta |
-| Back to Top Button | 🔲 Bekliyor | Düşük |
-| Share Buttons | 🔲 Bekliyor | Düşük |
-| Image Optimization | 🔲 Bekliyor | Orta |
+| RSS Feed | ✅ Tamamlandı | Yüksek |
+| Sitemap | ✅ Tamamlandı | Yüksek |
+| Reading Progress Bar | ✅ Tamamlandı | Orta |
+| Table of Contents | ✅ Tamamlandı | Orta |
+| Infinite Scroll | ✅ Tamamlandı | Orta |
+| Back to Top Button | ✅ Tamamlandı | Düşük |
+| Share Buttons | ✅ Tamamlandı | Düşük |
+| Image Optimization | ✅ Tamamlandı | Orta |

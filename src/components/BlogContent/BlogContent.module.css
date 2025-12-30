@@ -29,6 +29,36 @@
     font-size: var(--md-sys-typescale-headline-small-size);
 }
 
+/* Heading anchor links */
+.headingWithAnchor {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.anchorLink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: var(--md-sys-color-outline);
+    opacity: 0;
+    border-radius: var(--md-sys-shape-corner-small);
+    transition: all var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+    flex-shrink: 0;
+}
+
+.headingWithAnchor:hover .anchorLink {
+    opacity: 1;
+}
+
+.anchorLink:hover {
+    color: var(--md-sys-color-primary);
+    background-color: var(--md-sys-color-primary-container);
+}
+
 .content p {
     margin-bottom: 1.5em;
 }

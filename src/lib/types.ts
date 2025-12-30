@@ -40,5 +40,6 @@ export interface SocialLinks {
 export interface SiteConfig {
   title: string;
   description: string;
+  siteUrl: string;
   author: Author;
 }

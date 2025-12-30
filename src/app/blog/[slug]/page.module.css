@@ -1,7 +1,20 @@
-.article {
-    max-width: 800px;
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 48px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 48px 24px;
+    align-items: start;
+}
+
+.article {
+    min-width: 0;
+}
+
+.sidebar {
+    position: sticky;
+    top: 100px;
 }
 
 .header {
@@ -184,8 +197,18 @@
     font-weight: 600;
 }
 
+@media (max-width: 1024px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+    }
+}
+
 @media (max-width: 600px) {
-    .article {
+    .layout {
         padding: 24px 16px;
     }
 
