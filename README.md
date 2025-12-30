@@ -21,7 +21,7 @@ Kişisel blog sitesi - Next.js 15, TypeScript ve Material Design 3 token sistemi
 
 ```bash
 # Repoyu klonla
-git clone https://github.com/YOUR_USERNAME/BaySthene-Blog.git
+git clone https://github.com/BaySthene/BaySthene-Blog.git
 
 # Klasöre gir
 cd BaySthene-Blog
@@ -65,7 +65,7 @@ excerpt: "Kısa açıklama"
 date: "2024-12-30"
 coverImage: "/images/cover.jpg"
 tags: ["React", "TypeScript"]
-authorName: "Muhammed Bera Koç"
+authorName: "Muhammet Keskin"
 ---
 
 Yazı içeriği buraya...
@@ -93,4 +93,4 @@ MIT License - Dilediğiniz gibi kullanabilirsiniz.
 
 ---
 
-Built with ❤️ by [Muhammed Bera Koç](https://github.com/YOUR_USERNAME)
+Built with ❤️ by [Muhammet Keskin](https://github.com/BaySthene)
