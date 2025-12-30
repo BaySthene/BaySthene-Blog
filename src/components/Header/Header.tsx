@@ -94,6 +94,12 @@ export default function Header() {
                     <Link href="/search" className={styles.navLink}>
                         Tüm Yazılar
                     </Link>
+                    <Link href="/tags" className={styles.navLink}>
+                        Etiketler
+                    </Link>
+                    <Link href="/about" className={styles.navLink}>
+                        Hakkımda
+                    </Link>
                 </nav>
 
                 <div className={styles.actions}>

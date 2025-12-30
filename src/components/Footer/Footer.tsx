@@ -27,6 +27,8 @@ export default function Footer() {
                         <nav className={styles.linksNav}>
                             <Link href="/">Ana Sayfa</Link>
                             <Link href="/search">Tüm Yazılar</Link>
+                            <Link href="/tags">Etiketler</Link>
+                            <Link href="/about">Hakkımda</Link>
                         </nav>
                     </div>
 
