@@ -1,0 +1,103 @@
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    min-height: calc(100vh - 200px);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.title {
+    font-size: var(--md-sys-typescale-display-small-size);
+    color: var(--md-sys-color-on-surface);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.description {
+    font-size: var(--md-sys-typescale-body-large-size);
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.tagCloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background-color: var(--md-sys-color-surface-container);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: var(--md-sys-shape-corner-full);
+    text-decoration: none;
+    transition: all var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized);
+}
+
+.tag:hover {
+    background: linear-gradient(135deg, var(--md-sys-color-primary-container) 0%, var(--md-sys-color-tertiary-container) 100%);
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.tag.popular {
+    background: linear-gradient(135deg, var(--md-sys-color-primary) 0%, var(--md-sys-color-tertiary) 100%);
+    border-color: transparent;
+    color: var(--md-sys-color-on-primary);
+}
+
+.tag.popular .tagCount {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: inherit;
+}
+
+.tagName {
+    font-size: var(--md-sys-typescale-label-large-size);
+    font-weight: 500;
+    color: inherit;
+}
+
+.tag:not(.popular) .tagName {
+    color: var(--md-sys-color-on-surface);
+}
+
+.tagCount {
+    padding: 4px 10px;
+    background-color: var(--md-sys-color-surface-container-high);
+    border-radius: var(--md-sys-shape-corner-full);
+    font-size: var(--md-sys-typescale-label-small-size);
+    font-weight: 500;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+.emptyState {
+    text-align: center;
+    padding: 48px;
+    color: var(--md-sys-color-on-surface-variant);
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 24px 16px;
+    }
+
+    .title {
+        font-size: var(--md-sys-typescale-headline-large-size);
+    }
+
+    .tagCloud {
+        gap: 8px;
+    }
+
+    .tag {
+        padding: 10px 16px;
+    }
+}

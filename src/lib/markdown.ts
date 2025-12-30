@@ -120,3 +120,30 @@ export function searchPosts(query: string): BlogPostMeta[] {
             post.tags.some((tag) => tag.toLowerCase().includes(lowerQuery))
     );
 }
+
+// Get all unique tags with post counts
+export function getAllTags(): { tag: string; count: number }[] {
+    const posts = getAllPosts();
+    const tagMap = new Map<string, number>();
+
+    posts.forEach((post) => {
+        post.tags.forEach((tag) => {
+            tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
+        });
+    });
+
+    return Array.from(tagMap.entries())
+        .map(([tag, count]) => ({ tag, count }))
+        .sort((a, b) => b.count - a.count);
+}
+
+// Get posts by tag
+export function getPostsByTag(tag: string): BlogPostMeta[] {
+    const posts = getAllPosts();
+    const lowerTag = tag.toLowerCase();
+
+    return posts.filter((post) =>
+        post.tags.some((t) => t.toLowerCase() === lowerTag)
+    );
+}
+
