@@ -1,19 +1,22 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
+import { useLocale, useTranslations } from 'next-intl';
 import styles from './BlogCard.module.css';
 import { BlogPostMeta } from '@/lib/types';
 import { getShimmerPlaceholder } from '@/lib/image';
-import { type Locale } from '@/i18n/config';
 
 interface BlogCardProps {
     post: BlogPostMeta;
-    locale: Locale;
+    // Locale prop is optional now as we can use useLocale hook, 
+    // but keeping it for compatibility with explicit passing if needed
     variant?: 'default' | 'compact';
 }
 
-export default async function BlogCard({ post, locale, variant = 'default' }: BlogCardProps) {
-    const t = await getTranslations('home');
+export default function BlogCard({ post, variant = 'default' }: BlogCardProps) {
+    const locale = useLocale();
+    const t = useTranslations('home');
 
     const formattedDate = new Date(post.date).toLocaleDateString(
         locale === 'tr' ? 'tr-TR' : 'en-US',

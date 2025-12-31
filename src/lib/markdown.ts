@@ -6,6 +6,7 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeStringify from 'rehype-stringify';
+import { cache } from 'react';
 import { BlogPost, BlogPostMeta } from './types';
 
 const postsDirectory = path.join(process.cwd(), 'src/content');
@@ -38,22 +39,8 @@ export function getAllPostSlugs(): string[] {
     }
 }
 
-// Get all posts metadata (for listing)
-export function getAllPosts(): BlogPostMeta[] {
-    ensureContentDirectory();
-
-    const slugs = getAllPostSlugs();
-    const posts = slugs
-        .map((slug) => getPostBySlug(slug))
-        .filter((post): post is BlogPost => post !== null)
-        .map(({ content, author, ...meta }) => meta)
-        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-    return posts;
-}
-
-// Get single post by slug
-export function getPostBySlug(slug: string): BlogPost | null {
+// Get single post by slug (Cached)
+export const getPostBySlug = cache((slug: string): BlogPost | null => {
     ensureContentDirectory();
 
     try {
@@ -80,7 +67,21 @@ export function getPostBySlug(slug: string): BlogPost | null {
     } catch {
         return null;
     }
-}
+});
+
+// Get all posts metadata (Cached)
+export const getAllPosts = cache((): BlogPostMeta[] => {
+    ensureContentDirectory();
+
+    const slugs = getAllPostSlugs();
+    const posts = slugs
+        .map((slug) => getPostBySlug(slug))
+        .filter((post): post is BlogPost => post !== null)
+        .map(({ content, author, ...meta }) => meta)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    return posts;
+});
 
 // Convert markdown to HTML with syntax highlighting
 export async function markdownToHtml(markdown: string): Promise<string> {
@@ -95,19 +96,19 @@ export async function markdownToHtml(markdown: string): Promise<string> {
 }
 
 // Get featured post (latest)
-export function getFeaturedPost(): BlogPostMeta | null {
+export const getFeaturedPost = cache((): BlogPostMeta | null => {
     const posts = getAllPosts();
     return posts.length > 0 ? posts[0] : null;
-}
+});
 
 // Get recent posts (excluding featured)
-export function getRecentPosts(count: number = 3): BlogPostMeta[] {
+export const getRecentPosts = cache((count: number = 3): BlogPostMeta[] => {
     const posts = getAllPosts();
     return posts.slice(1, count + 1);
-}
+});
 
 // Search posts by title or content
-export function searchPosts(query: string): BlogPostMeta[] {
+export const searchPosts = cache((query: string): BlogPostMeta[] => {
     if (!query.trim()) return [];
 
     const lowerQuery = query.toLowerCase();
@@ -119,10 +120,10 @@ export function searchPosts(query: string): BlogPostMeta[] {
             post.excerpt.toLowerCase().includes(lowerQuery) ||
             post.tags.some((tag) => tag.toLowerCase().includes(lowerQuery))
     );
-}
+});
 
 // Get all unique tags with post counts
-export function getAllTags(): { tag: string; count: number }[] {
+export const getAllTags = cache((): { tag: string; count: number }[] => {
     const posts = getAllPosts();
     const tagMap = new Map<string, number>();
 
@@ -135,15 +136,14 @@ export function getAllTags(): { tag: string; count: number }[] {
     return Array.from(tagMap.entries())
         .map(([tag, count]) => ({ tag, count }))
         .sort((a, b) => b.count - a.count);
-}
+});
 
 // Get posts by tag
-export function getPostsByTag(tag: string): BlogPostMeta[] {
+export const getPostsByTag = cache((tag: string): BlogPostMeta[] => {
     const posts = getAllPosts();
     const lowerTag = tag.toLowerCase();
 
     return posts.filter((post) =>
         post.tags.some((t) => t.toLowerCase() === lowerTag)
     );
-}
-
+});
