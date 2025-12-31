@@ -9,19 +9,21 @@ import Analytics from '@/components/Analytics';
 import { siteConfig } from '@/lib/config';
 import { locales, type Locale } from '@/i18n/config';
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
     return locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
     params
 }: {
-    params: Promise<{ locale: Locale }>
+    params: any
 }): Promise<Metadata> {
     const { locale } = await params;
 
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
     return {
-        metadataBase: new URL(siteConfig.siteUrl),
+        metadataBase: new URL(siteUrl),
         title: {
             default: 'BaySthene Blog',
             template: '%s | BaySthene Blog',
@@ -61,7 +63,7 @@ export default async function LocaleLayout({
     params,
 }: {
     children: React.ReactNode;
-    params: Promise<{ locale: Locale }>;
+    params: any;
 }) {
     const { locale } = await params;
 

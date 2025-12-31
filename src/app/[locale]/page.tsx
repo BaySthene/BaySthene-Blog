@@ -58,7 +58,7 @@ export default async function HomePage({ params }: HomePageProps) {
               </div>
               <div className={styles.postsGrid}>
                 {recentPosts.map((post) => (
-                  <BlogCard key={post.slug} post={post} locale={locale} />
+                  <BlogCard key={post.slug} post={post} />
                 ))}
               </div>
             </section>
