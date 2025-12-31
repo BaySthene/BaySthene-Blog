@@ -3,8 +3,10 @@ import '@/styles/globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackToTop from '@/components/BackToTop';
+import { siteConfig } from '@/lib/config';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.siteUrl),
   title: {
     default: 'BaySthene Blog',
     template: '%s | BaySthene Blog',
@@ -12,10 +14,21 @@ export const metadata: Metadata = {
   description: 'Yazılım, teknoloji ve daha fazlası hakkında düşüncelerimi paylaştığım kişisel blog.',
   keywords: ['blog', 'yazılım', 'teknoloji', 'geliştirici', 'programlama'],
   authors: [{ name: 'BaySthene' }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
   openGraph: {
     type: 'website',
     locale: 'tr_TR',
     siteName: 'BaySthene Blog',
+  },
+  alternates: {
+    canonical: '/',
   },
 };
 

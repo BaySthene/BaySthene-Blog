@@ -13,6 +13,11 @@ export default function HomePage() {
 
   return (
     <div className={styles.container}>
+      {/* SEO: Hidden but accessible H1 */}
+      <h1 className={styles.srOnly}>
+        BaySthene Blog - Yazılım, Teknoloji ve Daha Fazlası
+      </h1>
+
       <div className={styles.layout}>
         <div className={styles.main}>
           {/* Featured Post */}
