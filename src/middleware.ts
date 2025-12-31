@@ -1,5 +1,5 @@
 import createMiddleware from 'next-intl/middleware';
-import { locales, defaultLocale, type Locale } from './src/i18n/config';
+import { locales, defaultLocale, type Locale } from './i18n/config';
 import { NextRequest, NextResponse } from 'next/server';
 
 const LOCALE_COOKIE = 'NEXT_LOCALE';
@@ -55,12 +55,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: [
-        // Match root
-        '/',
-        // Match all locale paths
-        '/(tr|en)/:path*',
-        // Match all pathnames except for api, _next, and static files
-        '/((?!api|_next|_vercel|.*\\..*).*)'
-    ]
+    matcher: ['/((?!api|_next|_vercel|.*\\..*).*)']
 };
