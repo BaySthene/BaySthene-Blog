@@ -142,7 +142,7 @@ export default function Header({ locale }: HeaderProps) {
                             aria-label={t('theme')}
                             aria-expanded={isSettingsOpen}
                         >
-                            <SettingsIcon size={20} />
+                            <SettingsIcon size={20} aria-hidden="true" />
                         </button>
 
                         {isMounted && isSettingsOpen && (
@@ -155,14 +155,14 @@ export default function Header({ locale }: HeaderProps) {
                                             className={`${styles.settingsOption} ${theme === 'light' ? styles.active : ''}`}
                                             onClick={() => handleThemeChange('light')}
                                         >
-                                            <LightModeIcon size={18} />
+                                            <LightModeIcon size={18} aria-hidden="true" />
                                             <span>{t('light')}</span>
                                         </button>
                                         <button
                                             className={`${styles.settingsOption} ${theme === 'dark' ? styles.active : ''}`}
                                             onClick={() => handleThemeChange('dark')}
                                         >
-                                            <DarkModeIcon size={18} />
+                                            <DarkModeIcon size={18} aria-hidden="true" />
                                             <span>{t('dark')}</span>
                                         </button>
                                     </div>
@@ -194,7 +194,7 @@ export default function Header({ locale }: HeaderProps) {
                                 {/* Language Section */}
                                 <div className={styles.settingsSection}>
                                     <span className={styles.settingsLabel}>
-                                        <LanguageIcon size={16} />
+                                        <LanguageIcon size={16} aria-hidden="true" />
                                         {t('language')}
                                     </span>
                                     <div className={styles.settingsOptions}>

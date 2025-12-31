@@ -128,7 +128,7 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 20px;
+    padding: 12px 24px;
     background-color: var(--md-sys-color-surface-container-high);
     border: 1px solid var(--md-sys-color-outline-variant);
     border-radius: var(--md-sys-shape-corner-medium);
@@ -137,6 +137,8 @@
     font-size: var(--md-sys-typescale-label-large-size);
     font-weight: 500;
     transition: all var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized);
+    min-height: 48px;
+    box-sizing: border-box;
 }
 
 .link:hover {

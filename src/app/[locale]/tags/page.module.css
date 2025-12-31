@@ -39,6 +39,8 @@
     border-radius: var(--md-sys-shape-corner-full);
     text-decoration: none;
     transition: all var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized);
+    min-height: 48px;
+    box-sizing: border-box;
 }
 
 .tag:hover {

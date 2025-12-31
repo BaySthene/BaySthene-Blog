@@ -31,7 +31,12 @@ export default function BlogCard({ post, variant = 'default' }: BlogCardProps) {
 
     return (
         <article className={`${styles.card} ${styles[variant]}`}>
-            <Link href={blogPath} className={styles.imageLink}>
+            <Link
+                href={blogPath}
+                className={styles.imageLink}
+                aria-hidden="true"
+                tabIndex={-1}
+            >
                 <div className={styles.imageContainer}>
                     <Image
                         src={post.coverImage}
