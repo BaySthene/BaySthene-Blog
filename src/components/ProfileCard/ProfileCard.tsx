@@ -1,13 +1,18 @@
 import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
 import { siteConfig } from '@/lib/config';
 import { GitHubIcon, LinkedInIcon, DownloadIcon } from '@/components/Icons';
+import { type Locale } from '@/i18n/config';
 import styles from './ProfileCard.module.css';
 
 interface ProfileCardProps {
     author?: typeof siteConfig.author;
+    locale: Locale;
 }
 
-export default function ProfileCard({ author = siteConfig.author }: ProfileCardProps) {
+export default async function ProfileCard({ author = siteConfig.author, locale }: ProfileCardProps) {
+    const t = await getTranslations('profile');
+
     return (
         <aside className={styles.card}>
             <div className={styles.avatarWrapper}>
@@ -55,10 +60,10 @@ export default function ProfileCard({ author = siteConfig.author }: ProfileCardP
                         href={author.links.cv}
                         download
                         className={`${styles.linkButton} ${styles.cvButton}`}
-                        aria-label="CV İndir"
+                        aria-label={t('downloadCV')}
                     >
                         <DownloadIcon size={20} />
-                        <span>CV İndir</span>
+                        <span>{t('downloadCV')}</span>
                     </a>
                 )}
             </div>

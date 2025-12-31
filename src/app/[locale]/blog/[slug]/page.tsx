@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getPostBySlug, getAllPostSlugs, markdownToHtml } from '@/lib/markdown';
 import BlogContent from '@/components/BlogContent';
 import ReadingProgress from '@/components/ReadingProgress';
@@ -10,30 +11,33 @@ import ShareButtons from '@/components/ShareButtons';
 import ReadingTracker from '@/components/ReadingTracker';
 import { ArrowBackIcon } from '@/components/Icons';
 import { getShimmerPlaceholder } from '@/lib/image';
+import { locales, type Locale } from '@/i18n/config';
 import styles from './page.module.css';
 
 interface BlogPostPageProps {
-    params: Promise<{ slug: string }>;
+    params: Promise<{ slug: string; locale: Locale }>;
 }
 
 export async function generateStaticParams() {
     const slugs = getAllPostSlugs();
-    return slugs.map((slug) => ({ slug }));
+    return locales.flatMap((locale) =>
+        slugs.map((slug) => ({ locale, slug }))
+    );
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-    const { slug } = await params;
+    const { slug, locale } = await params;
     const post = getPostBySlug(slug);
 
     if (!post) {
-        return { title: 'Yazı Bulunamadı' };
+        return { title: locale === 'tr' ? 'Yazı Bulunamadı' : 'Post Not Found' };
     }
 
     return {
         title: post.title,
         description: post.excerpt,
         alternates: {
-            canonical: `/blog/${slug}`,
+            canonical: `/${locale}/blog/${slug}`,
         },
         openGraph: {
             title: post.title,
@@ -46,19 +50,30 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-    const { slug } = await params;
+    const { slug, locale } = await params;
+
+    setRequestLocale(locale);
+
     const post = getPostBySlug(slug);
+    const t = await getTranslations('blog');
+    const tCommon = await getTranslations('common');
 
     if (!post) {
         notFound();
     }
 
     const content = await markdownToHtml(post.content);
-    const formattedDate = new Date(post.date).toLocaleDateString('tr-TR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
+    const formattedDate = new Date(post.date).toLocaleDateString(
+        locale === 'tr' ? 'tr-TR' : 'en-US',
+        {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        }
+    );
+
+    const minReadText = locale === 'tr' ? 'dk okuma' : 'min read';
+    const backText = locale === 'tr' ? 'Ana Sayfaya Dön' : 'Back to Home';
 
     return (
         <>
@@ -67,15 +82,15 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className={styles.layout}>
                 <article className={styles.article}>
                     <div className={styles.header}>
-                        <Link href="/" className={styles.backLink}>
+                        <Link href={`/${locale}`} className={styles.backLink}>
                             <ArrowBackIcon size={20} />
-                            Ana Sayfaya Dön
+                            {backText}
                         </Link>
 
                         <div className={styles.meta}>
                             <time dateTime={post.date}>{formattedDate}</time>
                             <span className={styles.separator}>•</span>
-                            <span>{post.readingTime} dk okuma</span>
+                            <span>{post.readingTime} {minReadText}</span>
                         </div>
 
                         <h1 className={styles.title}>{post.title}</h1>
@@ -83,9 +98,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         {post.tags.length > 0 && (
                             <div className={styles.tags}>
                                 {post.tags.map((tag) => (
-                                    <span key={tag} className={styles.tag}>
+                                    <Link
+                                        key={tag}
+                                        href={`/${locale}/tags/${tag}`}
+                                        className={styles.tag}
+                                    >
                                         {tag}
-                                    </span>
+                                    </Link>
                                 ))}
                             </div>
                         )}
@@ -116,4 +135,3 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </>
     );
 }
-

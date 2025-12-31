@@ -1,22 +1,32 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
 import styles from './FeaturedPost.module.css';
 import { BlogPostMeta } from '@/lib/types';
+import { type Locale } from '@/i18n/config';
 
 interface FeaturedPostProps {
     post: BlogPostMeta;
+    locale: Locale;
 }
 
-export default function FeaturedPost({ post }: FeaturedPostProps) {
-    const formattedDate = new Date(post.date).toLocaleDateString('tr-TR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
+export default async function FeaturedPost({ post, locale }: FeaturedPostProps) {
+    const t = await getTranslations('home');
+
+    const formattedDate = new Date(post.date).toLocaleDateString(
+        locale === 'tr' ? 'tr-TR' : 'en-US',
+        {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        }
+    );
+
+    const blogPath = `/${locale}/blog/${post.slug}`;
 
     return (
         <article className={styles.featured}>
-            <Link href={`/blog/${post.slug}`} className={styles.imageLink}>
+            <Link href={blogPath} className={styles.imageLink}>
                 <div className={styles.imageContainer}>
                     <Image
                         src={post.coverImage}
@@ -31,16 +41,18 @@ export default function FeaturedPost({ post }: FeaturedPostProps) {
             </Link>
 
             <div className={styles.content}>
-                <span className={styles.badge}>Son Yazı</span>
+                <span className={styles.badge}>{t('latestPost')}</span>
 
                 <div className={styles.meta}>
                     <time dateTime={post.date} className={styles.date}>
                         {formattedDate}
                     </time>
-                    <span className={styles.readingTime}>{post.readingTime} dk okuma</span>
+                    <span className={styles.readingTime}>
+                        {post.readingTime} {t('minRead')}
+                    </span>
                 </div>
 
-                <Link href={`/blog/${post.slug}`} className={styles.titleLink}>
+                <Link href={blogPath} className={styles.titleLink}>
                     <h2 className={styles.title}>{post.title}</h2>
                 </Link>
 
@@ -56,8 +68,8 @@ export default function FeaturedPost({ post }: FeaturedPostProps) {
                     </div>
                 )}
 
-                <Link href={`/blog/${post.slug}`} className={styles.readMore}>
-                    Devamını Oku
+                <Link href={blogPath} className={styles.readMore}>
+                    {t('readMore')}
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                         <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
                     </svg>

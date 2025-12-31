@@ -1,13 +1,25 @@
 import Link from 'next/link';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import FeaturedPost from '@/components/FeaturedPost';
 import BlogCard from '@/components/BlogCard';
 import ProfileCard from '@/components/ProfileCard';
 import { ArrowDownIcon } from '@/components/Icons';
 import { getFeaturedPost, getRecentPosts } from '@/lib/markdown';
 import { siteConfig } from '@/lib/config';
+import { type Locale } from '@/i18n/config';
 import styles from './page.module.css';
 
-export default function HomePage() {
+interface HomePageProps {
+  params: Promise<{ locale: Locale }>;
+}
+
+export default async function HomePage({ params }: HomePageProps) {
+  const { locale } = await params;
+
+  setRequestLocale(locale);
+
+  const t = await getTranslations('home');
+
   const featuredPost = getFeaturedPost();
   const recentPosts = getRecentPosts(3);
 
@@ -15,7 +27,9 @@ export default function HomePage() {
     <div className={styles.container}>
       {/* SEO: Hidden but accessible H1 */}
       <h1 className={styles.srOnly}>
-        BaySthene Blog - Yazılım, Teknoloji ve Daha Fazlası
+        {locale === 'tr'
+          ? 'BaySthene Blog - Yazılım, Teknoloji ve Daha Fazlası'
+          : 'BaySthene Blog - Software, Technology and More'}
       </h1>
 
       <div className={styles.layout}>
@@ -23,12 +37,12 @@ export default function HomePage() {
           {/* Featured Post */}
           {featuredPost ? (
             <section className={styles.featuredSection}>
-              <FeaturedPost post={featuredPost} />
+              <FeaturedPost post={featuredPost} locale={locale} />
             </section>
           ) : (
             <section className={styles.emptyState}>
-              <h2>Henüz blog yazısı yok</h2>
-              <p>Yakında içerikler eklenecek!</p>
+              <h2>{t('noPosts')}</h2>
+              <p>{t('comingSoon')}</p>
             </section>
           )}
 
@@ -36,15 +50,15 @@ export default function HomePage() {
           {recentPosts.length > 0 && (
             <section className={styles.recentSection}>
               <div className={styles.sectionHeader}>
-                <h2 className={styles.sectionTitle}>Diğer Yazılar</h2>
-                <Link href="/search" className={styles.viewAllLink}>
-                  Tüm Yazıları Gör
+                <h2 className={styles.sectionTitle}>{t('recentPosts')}</h2>
+                <Link href={`/${locale}/search`} className={styles.viewAllLink}>
+                  {t('viewAll')}
                   <ArrowDownIcon size={18} />
                 </Link>
               </div>
               <div className={styles.postsGrid}>
                 {recentPosts.map((post) => (
-                  <BlogCard key={post.slug} post={post} />
+                  <BlogCard key={post.slug} post={post} locale={locale} />
                 ))}
               </div>
             </section>
@@ -53,7 +67,7 @@ export default function HomePage() {
 
         {/* Sidebar */}
         <aside className={styles.sidebar}>
-          <ProfileCard author={siteConfig.author} />
+          <ProfileCard author={siteConfig.author} locale={locale} />
         </aside>
       </div>
     </div>

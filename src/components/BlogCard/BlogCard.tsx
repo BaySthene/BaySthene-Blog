@@ -1,24 +1,34 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
 import styles from './BlogCard.module.css';
 import { BlogPostMeta } from '@/lib/types';
 import { getShimmerPlaceholder } from '@/lib/image';
+import { type Locale } from '@/i18n/config';
 
 interface BlogCardProps {
     post: BlogPostMeta;
+    locale: Locale;
     variant?: 'default' | 'compact';
 }
 
-export default function BlogCard({ post, variant = 'default' }: BlogCardProps) {
-    const formattedDate = new Date(post.date).toLocaleDateString('tr-TR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
+export default async function BlogCard({ post, locale, variant = 'default' }: BlogCardProps) {
+    const t = await getTranslations('home');
+
+    const formattedDate = new Date(post.date).toLocaleDateString(
+        locale === 'tr' ? 'tr-TR' : 'en-US',
+        {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        }
+    );
+
+    const blogPath = `/${locale}/blog/${post.slug}`;
 
     return (
         <article className={`${styles.card} ${styles[variant]}`}>
-            <Link href={`/blog/${post.slug}`} className={styles.imageLink}>
+            <Link href={blogPath} className={styles.imageLink}>
                 <div className={styles.imageContainer}>
                     <Image
                         src={post.coverImage}
@@ -37,10 +47,12 @@ export default function BlogCard({ post, variant = 'default' }: BlogCardProps) {
                     <time dateTime={post.date} className={styles.date}>
                         {formattedDate}
                     </time>
-                    <span className={styles.readingTime}>{post.readingTime} dk okuma</span>
+                    <span className={styles.readingTime}>
+                        {post.readingTime} {t('minRead')}
+                    </span>
                 </div>
 
-                <Link href={`/blog/${post.slug}`} className={styles.titleLink}>
+                <Link href={blogPath} className={styles.titleLink}>
                     <h3 className={styles.title}>{post.title}</h3>
                 </Link>
 
