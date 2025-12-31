@@ -1,10 +1,20 @@
+'use client';
+
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { siteConfig } from '@/lib/config';
 import { GitHubIcon, LinkedInIcon } from '@/components/Icons';
+import { type Locale } from '@/i18n/config';
 import styles from './Footer.module.css';
 
-export default function Footer() {
+interface FooterProps {
+    locale: Locale;
+}
+
+export default function Footer({ locale }: FooterProps) {
+    const t = useTranslations('common');
     const currentYear = new Date().getFullYear();
+    const basePath = `/${locale}`;
 
     return (
         <footer className={styles.footer}>
@@ -12,7 +22,7 @@ export default function Footer() {
                 <div className={styles.grid}>
                     {/* Brand */}
                     <div className={styles.brand}>
-                        <Link href="/" className={styles.logo}>
+                        <Link href={basePath} className={styles.logo}>
                             <span className={styles.logoIcon}>📝</span>
                             <span className={styles.logoText}>BaySthene</span>
                         </Link>
@@ -23,18 +33,18 @@ export default function Footer() {
 
                     {/* Links */}
                     <div className={styles.links}>
-                        <h4 className={styles.linksTitle}>Bağlantılar</h4>
+                        <h4 className={styles.linksTitle}>{t('links')}</h4>
                         <nav className={styles.linksNav}>
-                            <Link href="/">Ana Sayfa</Link>
-                            <Link href="/search">Tüm Yazılar</Link>
-                            <Link href="/tags">Etiketler</Link>
-                            <Link href="/about">Hakkımda</Link>
+                            <Link href={basePath}>{t('home')}</Link>
+                            <Link href={`${basePath}/search`}>{t('allPosts')}</Link>
+                            <Link href={`${basePath}/tags`}>{t('tags')}</Link>
+                            <Link href={`${basePath}/about`}>{t('about')}</Link>
                         </nav>
                     </div>
 
                     {/* Social */}
                     <div className={styles.social}>
-                        <h4 className={styles.socialTitle}>Sosyal</h4>
+                        <h4 className={styles.socialTitle}>{t('social')}</h4>
                         <div className={styles.socialLinks}>
                             <a
                                 href={siteConfig.author.links.github}
@@ -60,7 +70,7 @@ export default function Footer() {
 
                 <div className={styles.bottom}>
                     <p className={styles.copyright}>
-                        © {currentYear} {siteConfig.author.name}. Tüm hakları saklıdır.
+                        {t('copyright')}
                     </p>
                 </div>
             </div>

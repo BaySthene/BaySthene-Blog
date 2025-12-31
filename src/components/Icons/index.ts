@@ -25,3 +25,6 @@ export { default as LinkedInIcon } from './LinkedInIcon';
 // Date/Time icons
 export { default as ScheduleIcon } from './ScheduleIcon';
 export { default as CalendarIcon } from './CalendarIcon';
+
+// i18n icons
+export { default as LanguageIcon } from './LanguageIcon';

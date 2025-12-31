@@ -1,0 +1,61 @@
+{
+    "common": {
+        "home": "Home",
+        "allPosts": "All Posts",
+        "tags": "Tags",
+        "about": "About",
+        "search": "Search...",
+        "theme": "Theme",
+        "language": "Language",
+        "contrast": "Contrast",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System",
+        "default": "Default",
+        "high": "High",
+        "links": "Links",
+        "social": "Social",
+        "copyright": "© 2025 BaySthene. All rights reserved."
+    },
+    "home": {
+        "latestPost": "Latest Post",
+        "recentPosts": "Recent Posts",
+        "viewAll": "View All Posts",
+        "noPosts": "No blog posts yet",
+        "comingSoon": "Content coming soon!",
+        "readMore": "Read More",
+        "minRead": "min read"
+    },
+    "blog": {
+        "share": "Share",
+        "shareOn": "Share on {platform}",
+        "copyLink": "Copy Link",
+        "copied": "Copied!",
+        "relatedPosts": "Related Posts",
+        "tableOfContents": "Table of Contents"
+    },
+    "profile": {
+        "downloadCV": "Download CV"
+    },
+    "search": {
+        "title": "All Posts",
+        "placeholder": "Search posts...",
+        "noResults": "No results found",
+        "results": "{count} posts found"
+    },
+    "tags": {
+        "title": "Tags",
+        "allTags": "All Tags",
+        "postsTagged": "Posts tagged with \"{tag}\""
+    },
+    "about": {
+        "title": "About Me"
+    },
+    "error": {
+        "notFound": "Page Not Found",
+        "notFoundDesc": "The page you're looking for doesn't exist.",
+        "goHome": "Go Home",
+        "somethingWrong": "Something went wrong!",
+        "tryAgain": "Try Again"
+    }
+}

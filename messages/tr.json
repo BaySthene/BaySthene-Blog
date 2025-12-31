@@ -1,0 +1,61 @@
+{
+    "common": {
+        "home": "Ana Sayfa",
+        "allPosts": "Tüm Yazılar",
+        "tags": "Etiketler",
+        "about": "Hakkında",
+        "search": "Ara...",
+        "theme": "Tema",
+        "language": "Dil",
+        "contrast": "Kontrast",
+        "light": "Açık",
+        "dark": "Koyu",
+        "system": "Sistem",
+        "default": "Varsayılan",
+        "high": "Yüksek",
+        "links": "Bağlantılar",
+        "social": "Sosyal",
+        "copyright": "© 2025 BaySthene. Tüm hakları saklıdır."
+    },
+    "home": {
+        "latestPost": "Son Yazı",
+        "recentPosts": "Diğer Yazılar",
+        "viewAll": "Tüm Yazıları Gör",
+        "noPosts": "Henüz blog yazısı yok",
+        "comingSoon": "Yakında içerikler eklenecek!",
+        "readMore": "Devamını Oku",
+        "minRead": "dk okuma"
+    },
+    "blog": {
+        "share": "Paylaş",
+        "shareOn": "{platform} üzerinde paylaş",
+        "copyLink": "Linki Kopyala",
+        "copied": "Kopyalandı!",
+        "relatedPosts": "İlgili Yazılar",
+        "tableOfContents": "İçindekiler"
+    },
+    "profile": {
+        "downloadCV": "CV İndir"
+    },
+    "search": {
+        "title": "Tüm Yazılar",
+        "placeholder": "Yazılarda ara...",
+        "noResults": "Sonuç bulunamadı",
+        "results": "{count} yazı bulundu"
+    },
+    "tags": {
+        "title": "Etiketler",
+        "allTags": "Tüm Etiketler",
+        "postsTagged": "\"{tag}\" etiketli yazılar"
+    },
+    "about": {
+        "title": "Hakkımda"
+    },
+    "error": {
+        "notFound": "Sayfa Bulunamadı",
+        "notFoundDesc": "Aradığınız sayfa mevcut değil.",
+        "goHome": "Ana Sayfaya Dön",
+        "somethingWrong": "Bir şeyler ters gitti!",
+        "tryAgain": "Tekrar Dene"
+    }
+}

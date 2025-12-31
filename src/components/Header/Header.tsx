@@ -2,20 +2,33 @@
 
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import SearchBar from '@/components/SearchBar';
-import { SettingsIcon, LightModeIcon, DarkModeIcon } from '@/components/Icons';
+import { SettingsIcon, LightModeIcon, DarkModeIcon, LanguageIcon } from '@/components/Icons';
+import { locales, type Locale } from '@/i18n/config';
 import styles from './Header.module.css';
 
 type Theme = 'light' | 'dark';
 type Contrast = 'default' | 'medium' | 'high';
 
-export default function Header() {
+interface HeaderProps {
+    locale: Locale;
+}
+
+export default function Header({ locale }: HeaderProps) {
+    const t = useTranslations('common');
+    const pathname = usePathname();
+    const router = useRouter();
+
     const [theme, setTheme] = useState<Theme>('light');
     const [contrast, setContrast] = useState<Contrast>('default');
     const [isScrolled, setIsScrolled] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
     const settingsRef = useRef<HTMLDivElement>(null);
+
+    const basePath = `/${locale}`;
 
     // Mark component as mounted (client-side only)
     useEffect(() => {
@@ -79,31 +92,46 @@ export default function Header() {
         applyTheme(theme, newContrast);
     };
 
+    const switchLocale = (newLocale: Locale) => {
+        if (newLocale === locale) {
+            setIsSettingsOpen(false);
+            return;
+        }
+
+        // Replace the locale segment in the pathname
+        const segments = pathname.split('/');
+        segments[1] = newLocale;
+        const newPath = segments.join('/') || `/${newLocale}`;
+
+        router.push(newPath);
+        setIsSettingsOpen(false);
+    };
+
     return (
         <header className={`${styles.header} ${isScrolled ? styles.scrolled : ''}`}>
             <div className={styles.container}>
-                <Link href="/" className={styles.logo}>
+                <Link href={basePath} className={styles.logo}>
                     <span className={styles.logoIcon}>📝</span>
                     <span className={styles.logoText}>BaySthene</span>
                 </Link>
 
                 <nav className={styles.nav}>
-                    <Link href="/" className={styles.navLink}>
-                        Ana Sayfa
+                    <Link href={basePath} className={styles.navLink}>
+                        {t('home')}
                     </Link>
-                    <Link href="/search" className={styles.navLink}>
-                        Tüm Yazılar
+                    <Link href={`${basePath}/search`} className={styles.navLink}>
+                        {t('allPosts')}
                     </Link>
-                    <Link href="/tags" className={styles.navLink}>
-                        Etiketler
+                    <Link href={`${basePath}/tags`} className={styles.navLink}>
+                        {t('tags')}
                     </Link>
-                    <Link href="/about" className={styles.navLink}>
-                        Hakkımda
+                    <Link href={`${basePath}/about`} className={styles.navLink}>
+                        {t('about')}
                     </Link>
                 </nav>
 
                 <div className={styles.actions}>
-                    <SearchBar />
+                    <SearchBar placeholder={t('search')} />
 
                     {/* Settings Menu - only render interactive content after mount */}
                     <div className={styles.settingsWrapper} ref={settingsRef}>
@@ -111,7 +139,7 @@ export default function Header() {
                             type="button"
                             className={styles.settingsToggle}
                             onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-                            aria-label="Tema Ayarları"
+                            aria-label={t('theme')}
                             aria-expanded={isSettingsOpen}
                         >
                             <SettingsIcon size={20} />
@@ -119,49 +147,66 @@ export default function Header() {
 
                         {isMounted && isSettingsOpen && (
                             <div className={styles.settingsMenu}>
+                                {/* Theme Section */}
                                 <div className={styles.settingsSection}>
-                                    <span className={styles.settingsLabel}>Tema</span>
+                                    <span className={styles.settingsLabel}>{t('theme')}</span>
                                     <div className={styles.settingsOptions}>
                                         <button
                                             className={`${styles.settingsOption} ${theme === 'light' ? styles.active : ''}`}
                                             onClick={() => handleThemeChange('light')}
                                         >
                                             <LightModeIcon size={18} />
-                                            <span>Açık</span>
+                                            <span>{t('light')}</span>
                                         </button>
                                         <button
                                             className={`${styles.settingsOption} ${theme === 'dark' ? styles.active : ''}`}
                                             onClick={() => handleThemeChange('dark')}
                                         >
                                             <DarkModeIcon size={18} />
-                                            <span>Koyu</span>
+                                            <span>{t('dark')}</span>
                                         </button>
                                     </div>
                                 </div>
 
                                 <div className={styles.settingsDivider} />
 
+                                {/* Contrast Section */}
                                 <div className={styles.settingsSection}>
-                                    <span className={styles.settingsLabel}>Kontrast</span>
+                                    <span className={styles.settingsLabel}>{t('contrast')}</span>
                                     <div className={styles.settingsOptions}>
                                         <button
                                             className={`${styles.settingsOption} ${contrast === 'default' ? styles.active : ''}`}
                                             onClick={() => handleContrastChange('default')}
                                         >
-                                            <span>Normal</span>
-                                        </button>
-                                        <button
-                                            className={`${styles.settingsOption} ${contrast === 'medium' ? styles.active : ''}`}
-                                            onClick={() => handleContrastChange('medium')}
-                                        >
-                                            <span>Orta</span>
+                                            <span>{t('default')}</span>
                                         </button>
                                         <button
                                             className={`${styles.settingsOption} ${contrast === 'high' ? styles.active : ''}`}
                                             onClick={() => handleContrastChange('high')}
                                         >
-                                            <span>Yüksek</span>
+                                            <span>{t('high')}</span>
                                         </button>
+                                    </div>
+                                </div>
+
+                                <div className={styles.settingsDivider} />
+
+                                {/* Language Section */}
+                                <div className={styles.settingsSection}>
+                                    <span className={styles.settingsLabel}>
+                                        <LanguageIcon size={16} />
+                                        {t('language')}
+                                    </span>
+                                    <div className={styles.settingsOptions}>
+                                        {locales.map((loc) => (
+                                            <button
+                                                key={loc}
+                                                className={`${styles.settingsOption} ${locale === loc ? styles.active : ''}`}
+                                                onClick={() => switchLocale(loc)}
+                                            >
+                                                <span>{loc === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English'}</span>
+                                            </button>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
