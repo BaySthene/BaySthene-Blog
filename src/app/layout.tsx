@@ -3,6 +3,7 @@ import '@/styles/globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackToTop from '@/components/BackToTop';
+import Analytics from '@/components/Analytics';
 import { siteConfig } from '@/lib/config';
 
 export const metadata: Metadata = {
@@ -44,8 +45,8 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <BackToTop />
+        <Analytics />
       </body>
     </html>
   );
 }
-

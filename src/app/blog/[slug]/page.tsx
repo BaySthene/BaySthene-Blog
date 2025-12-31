@@ -7,6 +7,7 @@ import BlogContent from '@/components/BlogContent';
 import ReadingProgress from '@/components/ReadingProgress';
 import TableOfContents from '@/components/TableOfContents';
 import ShareButtons from '@/components/ShareButtons';
+import ReadingTracker from '@/components/ReadingTracker';
 import { ArrowBackIcon } from '@/components/Icons';
 import { getShimmerPlaceholder } from '@/lib/image';
 import styles from './page.module.css';
@@ -62,6 +63,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     return (
         <>
             <ReadingProgress />
+            <ReadingTracker slug={slug} readingTime={post.readingTime} />
             <div className={styles.layout}>
                 <article className={styles.article}>
                     <div className={styles.header}>

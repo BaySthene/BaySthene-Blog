@@ -1,14 +1,16 @@
 'use client';
 
 import { useState } from 'react';
+import { trackEvent } from '@/components/Analytics';
 import styles from './ShareButtons.module.css';
 
 interface ShareButtonsProps {
     title: string;
     url?: string;
+    slug?: string;
 }
 
-export default function ShareButtons({ title, url }: ShareButtonsProps) {
+export default function ShareButtons({ title, url, slug }: ShareButtonsProps) {
     const [copied, setCopied] = useState(false);
 
     // Use provided URL or current page URL
@@ -27,6 +29,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
         try {
             await navigator.clipboard.writeText(shareUrl);
             setCopied(true);
+            trackEvent('share_click', { platform: 'copy_link', slug, title });
             setTimeout(() => setCopied(false), 2000);
         } catch (err) {
             console.error('Failed to copy:', err);
@@ -34,6 +37,7 @@ export default function ShareButtons({ title, url }: ShareButtonsProps) {
     };
 
     const handleShare = (platform: keyof typeof shareLinks) => {
+        trackEvent('share_click', { platform, slug, title });
         window.open(shareLinks[platform], '_blank', 'width=600,height=400');
     };
 
