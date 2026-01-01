@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { ArrowUpIcon } from '@/components/Icons';
 import styles from './BackToTop.module.css';
 
@@ -11,6 +12,7 @@ interface BackToTopProps {
 export default function BackToTop({ threshold = 400 }: BackToTopProps) {
     const [isVisible, setIsVisible] = useState(false);
     const [scrollProgress, setScrollProgress] = useState(0);
+    const t = useTranslations('common');
 
     useEffect(() => {
         const handleScroll = () => {
@@ -43,8 +45,8 @@ export default function BackToTop({ threshold = 400 }: BackToTopProps) {
         <button
             className={`${styles.button} ${isVisible ? styles.visible : ''}`}
             onClick={scrollToTop}
-            aria-label="Sayfa başına dön"
-            title="Sayfa başına dön"
+            aria-label={t('backToTop')}
+            title={t('backToTop')}
         >
             {/* Progress ring */}
             <svg className={styles.progressRing} viewBox="0 0 48 48">

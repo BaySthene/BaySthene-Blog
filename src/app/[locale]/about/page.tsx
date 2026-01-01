@@ -1,15 +1,28 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { type Locale } from '@/i18n/config';
 import { siteConfig } from '@/lib/config';
 import styles from './page.module.css';
 import { GitHubIcon, LinkedInIcon, TwitterIcon } from '@/components/Icons';
 
-export const metadata: Metadata = {
-    title: 'Hakkımda',
-    description: 'BaySthene Blog yazarı hakkında bilgi',
-};
+interface AboutPageProps {
+    params: Promise<{ locale: Locale }>;
+}
 
-export default function AboutPage() {
+export async function generateMetadata({ params }: AboutPageProps): Promise<Metadata> {
+    await params; // Await params for request context
+    const t = await getTranslations('about');
+    return {
+        title: t('title'),
+        description: t('metaDescription'),
+    };
+}
+
+export default async function AboutPage({ params }: AboutPageProps) {
+    const { locale } = await params;
+    const t = await getTranslations('about');
+    const tCommon = await getTranslations('common');
     return (
         <div className={styles.container}>
             <div className={styles.hero}>
@@ -21,7 +34,7 @@ export default function AboutPage() {
                 </div>
 
                 <h1 className={styles.name}>{siteConfig.author.name}</h1>
-                <p className={styles.role}>Yazılım Geliştirici & Blog Yazarı</p>
+                <p className={styles.role}>{t('role')}</p>
             </div>
 
             <div className={styles.content}>
@@ -33,7 +46,7 @@ export default function AboutPage() {
                 </section>
 
                 <section className={styles.section}>
-                    <h2 className={styles.sectionTitle}>Uzmanlık Alanlarım</h2>
+                    <h2 className={styles.sectionTitle}>{t('expertiseTitle')}</h2>
                     <div className={styles.skills}>
                         {siteConfig.skills.map((skill) => (
                             <span key={skill} className={styles.skill}>{skill}</span>
@@ -42,7 +55,7 @@ export default function AboutPage() {
                 </section>
 
                 <section className={styles.section}>
-                    <h2 className={styles.sectionTitle}>İletişim</h2>
+                    <h2 className={styles.sectionTitle}>{t('contactTitle')}</h2>
                     <div className={styles.links}>
                         {siteConfig.author.links.github && (
                             <a
@@ -52,7 +65,7 @@ export default function AboutPage() {
                                 className={styles.link}
                             >
                                 <GitHubIcon size={24} />
-                                GitHub
+                                {tCommon('github')}
                             </a>
                         )}
                         {siteConfig.author.links.twitter && (
@@ -63,7 +76,7 @@ export default function AboutPage() {
                                 className={styles.link}
                             >
                                 <TwitterIcon size={24} />
-                                Twitter
+                                {tCommon('twitter')}
                             </a>
                         )}
                         {siteConfig.author.links.linkedin && (
@@ -74,17 +87,16 @@ export default function AboutPage() {
                                 className={styles.link}
                             >
                                 <LinkedInIcon size={24} />
-                                LinkedIn
+                                {tCommon('linkedin')}
                             </a>
                         )}
                     </div>
                 </section>
 
                 <section className={styles.section}>
-                    <h2 className={styles.sectionTitle}>Blog Hakkında</h2>
+                    <h2 className={styles.sectionTitle}>{t('blogAboutTitle')}</h2>
                     <p className={styles.text}>
-                        Bu blog Next.js 15, TypeScript ve Material Design 3 ile geliştirilmiştir.
-                        Performans, erişilebilirlik ve modern tasarım ilkelerine önem verilmiştir.
+                        {t('blogDescription')}
                     </p>
                     <div className={styles.techStack}>
                         <span className={styles.tech}>Next.js 15</span>
@@ -96,11 +108,11 @@ export default function AboutPage() {
             </div>
 
             <div className={styles.cta}>
-                <Link href="/" className={styles.ctaButton}>
+                <Link href={`/${locale}`} className={styles.ctaButton}>
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
                         <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
                     </svg>
-                    Yazılara Göz At
+                    {t('viewPostsCta')}
                 </Link>
             </div>
         </div>

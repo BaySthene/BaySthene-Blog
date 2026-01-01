@@ -1,22 +1,34 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { type Locale } from '@/i18n/config';
 import { getAllTags } from '@/lib/markdown';
 import styles from './page.module.css';
 
-export const metadata: Metadata = {
-    title: 'Etiketler',
-    description: 'Blog yazılarına göre etiket listesi',
-};
+interface TagsPageProps {
+    params: Promise<{ locale: Locale }>;
+}
 
-export default function TagsPage() {
+export async function generateMetadata({ params }: TagsPageProps): Promise<Metadata> {
+    await params; // Await params for request context
+    const t = await getTranslations('tags');
+    return {
+        title: t('title'),
+        description: t('metaDescription'),
+    };
+}
+
+export default async function TagsPage({ params }: TagsPageProps) {
+    const { locale } = await params;
+    const t = await getTranslations('tags');
     const tags = getAllTags();
 
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1 className={styles.title}>Etiketler</h1>
+                <h1 className={styles.title}>{t('title')}</h1>
                 <p className={styles.description}>
-                    Tüm blog yazılarını kategorilere göre keşfedin
+                    {t('description')}
                 </p>
             </div>
 
@@ -24,7 +36,7 @@ export default function TagsPage() {
                 {tags.map(({ tag, count }) => (
                     <Link
                         key={tag}
-                        href={`/tags/${encodeURIComponent(tag.toLowerCase())}`}
+                        href={`/${locale}/tags/${encodeURIComponent(tag.toLowerCase())}`}
                         className={`${styles.tag} ${count > 2 ? styles.popular : ''}`}
                     >
                         <span className={styles.tagName}>{tag}</span>
@@ -35,7 +47,7 @@ export default function TagsPage() {
 
             {tags.length === 0 && (
                 <div className={styles.emptyState}>
-                    <p>Henüz etiket yok.</p>
+                    <p>{t('emptyState')}</p>
                 </div>
             )}
         </div>

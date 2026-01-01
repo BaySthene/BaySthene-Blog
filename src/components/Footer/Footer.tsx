@@ -13,7 +13,6 @@ interface FooterProps {
 
 export default function Footer({ locale }: FooterProps) {
     const t = useTranslations('common');
-    const currentYear = new Date().getFullYear();
     const basePath = `/${locale}`;
 
     return (
@@ -50,7 +49,7 @@ export default function Footer({ locale }: FooterProps) {
                                 href={siteConfig.author.links.github}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                aria-label="GitHub"
+                                aria-label={t('github')}
                                 className={styles.socialLink}
                             >
                                 <GitHubIcon size={20} />
@@ -59,7 +58,7 @@ export default function Footer({ locale }: FooterProps) {
                                 href={siteConfig.author.links.linkedin}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                aria-label="LinkedIn"
+                                aria-label={t('linkedin')}
                                 className={styles.socialLink}
                             >
                                 <LinkedInIcon size={20} />

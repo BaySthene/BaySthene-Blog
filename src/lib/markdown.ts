@@ -20,17 +20,17 @@ export const getPostBySlug = cache((slug: string): BlogPost | null => {
 
     return {
         slug,
-        title: data.title || 'Untitled',
-        excerpt: data.excerpt || '',
+        title: (data.title as string) || 'Untitled',
+        excerpt: (data.excerpt as string) || '',
         content,
-        coverImage: data.coverImage || '/images/default-cover.jpg',
-        date: data.date || new Date().toISOString(),
+        coverImage: (data.coverImage as string) || '/images/default-cover.jpg',
+        date: (data.date as string) || new Date().toISOString(),
         readingTime: MarkdownService.calculateReadingTime(content),
-        tags: data.tags || [],
+        tags: (data.tags as string[]) || [],
         author: {
-            name: data.authorName || 'Anonymous',
-            avatar: data.authorAvatar || '/images/avatar.jpg',
-            bio: data.authorBio || '',
+            name: (data.authorName as string) || 'Anonymous',
+            avatar: (data.authorAvatar as string) || '/images/avatar.jpg',
+            bio: (data.authorBio as string) || '',
             links: {},
         },
     };
@@ -42,7 +42,15 @@ export const getAllPosts = cache((): BlogPostMeta[] => {
     const posts = slugs
         .map((slug) => getPostBySlug(slug))
         .filter((post): post is BlogPost => post !== null)
-        .map(({ content, author, ...meta }) => meta)
+        .map((post): BlogPostMeta => ({
+            slug: post.slug,
+            title: post.title,
+            excerpt: post.excerpt,
+            coverImage: post.coverImage,
+            date: post.date,
+            readingTime: post.readingTime,
+            tags: post.tags,
+        }))
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     return posts;

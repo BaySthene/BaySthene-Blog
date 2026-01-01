@@ -11,12 +11,11 @@ interface SearchPageProps {
 }
 
 export async function generateMetadata({ params }: SearchPageProps): Promise<Metadata> {
-    const { locale } = await params;
+    await params; // Await params but we only need the request context for translations
+    const t = await getTranslations('search');
     return {
-        title: locale === 'tr' ? 'Arama' : 'Search',
-        description: locale === 'tr'
-            ? 'Blog yazılarında arama yapın'
-            : 'Search blog posts',
+        title: t('searchPageTitle'),
+        description: t('searchPageDescription'),
     };
 }
 
@@ -35,12 +34,10 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
     const initialPosts = allPosts.slice(0, POSTS_PER_PAGE);
 
     const titleText = query
-        ? `"${query}" ${locale === 'tr' ? 'için sonuçlar' : 'results'}`
+        ? `"${query}" ${t('resultsFor')}`
         : t('title');
 
-    const countText = locale === 'tr'
-        ? `${allPosts.length} yazı ${query ? 'bulundu' : 'mevcut'}`
-        : `${allPosts.length} posts ${query ? 'found' : 'available'}`;
+    const countText = `${allPosts.length} ${t('posts')} ${query ? t('postsFound') : t('postsAvailable')}`;
 
     return (
         <div className={styles.container}>
@@ -60,9 +57,7 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
                     <div className={styles.emptyIcon}>🔍</div>
                     <h2>{t('noResults')}</h2>
                     <p>
-                        {locale === 'tr'
-                            ? `"${query}" ile eşleşen yazı bulunamadı. Farklı anahtar kelimeler deneyin.`
-                            : `No posts matching "${query}". Try different keywords.`}
+                        {`"${query}" ${t('noMatchingPosts')}`}
                     </p>
                 </div>
             )}

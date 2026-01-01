@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import BlogCard from '@/components/BlogCard';
 import { BlogPostMeta } from '@/lib/types';
 import styles from './InfinitePostList.module.css';
+import {useTranslations} from "next-intl";
 
 interface InfinitePostListProps {
     initialPosts: BlogPostMeta[];
@@ -21,6 +22,7 @@ export default function InfinitePostList({
     const [hasMore, setHasMore] = useState(initialPosts.length >= postsPerPage);
     const [isLoading, setIsLoading] = useState(false);
     const observerRef = useRef<HTMLDivElement>(null);
+    const t = useTranslations('blog');
 
     const loadMorePosts = useCallback(async () => {
         if (isLoading || !hasMore) return;
@@ -89,13 +91,13 @@ export default function InfinitePostList({
                 {isLoading && (
                     <div className={styles.loader}>
                         <div className={styles.spinner} />
-                        <span>Daha fazla yükleniyor...</span>
+                        <span>{t('loadingMore')}</span>
                     </div>
                 )}
                 {!hasMore && posts.length > postsPerPage && (
                     <div className={styles.endMessage}>
                         <span>🎉</span>
-                        <p>Tüm yazıları gördünüz!</p>
+                        <p>{t('haveSeenAllTheWritings')}</p>
                     </div>
                 )}
             </div>

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { SearchIcon } from '@/components/Icons';
 import styles from './SearchBar.module.css';
 import { BlogPostMeta } from '@/lib/types';
+import { useLocale, useTranslations } from "next-intl";
 
 interface SearchBarProps {
     placeholder?: string;
@@ -35,6 +36,8 @@ export default function SearchBar({ placeholder = 'Blog yazılarında ara...' }:
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const inputRef = useRef<HTMLInputElement>(null);
     const resultsRef = useRef<HTMLDivElement>(null);
+    const locale = useLocale();
+    const t = useTranslations('search');
 
     const debouncedQuery = useDebounce(query, 300);
 
@@ -119,16 +122,17 @@ export default function SearchBar({ placeholder = 'Blog yazılarında ara...' }:
         }
     }, [selectedIndex]);
 
+
     return (
         <div className={styles.container}>
             <button
                 type="button"
                 className={styles.trigger}
                 onClick={() => setIsOpen(true)}
-                aria-label="Ara"
+                aria-label={placeholder}
             >
                 <SearchIcon size={20} />
-                <span className={styles.triggerText}>Ara...</span>
+                <span className={styles.triggerText}>{placeholder}</span>
                 <kbd className={styles.shortcut}>⌘K</kbd>
             </button>
 
@@ -149,13 +153,13 @@ export default function SearchBar({ placeholder = 'Blog yazılarında ara...' }:
                                 autoComplete="off"
                             />
                             {isLoading && (
-                                <div className={styles.spinner} aria-label="Yükleniyor" />
+                                <div className={styles.spinner} aria-label={t('loading')} />
                             )}
                             <button
                                 type="button"
                                 className={styles.closeButton}
                                 onClick={handleClose}
-                                aria-label="Kapat"
+                                aria-label={t('close')}
                             >
                                 <kbd>ESC</kbd>
                             </button>
@@ -178,19 +182,24 @@ export default function SearchBar({ placeholder = 'Blog yazılarında ara...' }:
                                             </div>
                                             <div className={styles.resultMeta}>
                                                 <span className={styles.resultDate}>
-                                                    {new Date(post.date).toLocaleDateString('tr-TR', {
-                                                        day: 'numeric',
-                                                        month: 'short',
-                                                    })}
+                                                    {new Date(post.date).toLocaleDateString(
+                                                        locale === 'tr' ? 'tr-TR' : 'en-US',
+                                                        {
+                                                            day: 'numeric',
+                                                            month: 'short',
+                                                        }
+                                                    )}
                                                 </span>
-                                                <span className={styles.resultTime}>{post.readingTime} dk</span>
+                                                <span className={styles.resultTime}>{post.readingTime} {t('readingTime')}</span>
                                             </div>
                                         </Link>
                                     ))
                                 ) : (
                                     <div className={styles.noResults}>
-                                        <span className={styles.noResultsIcon}>🔍</span>
-                                        <p>"{query}" için sonuç bulunamadı</p>
+                                        <span className={styles.noResultsIcon}>
+                                            <SearchIcon size={24} className={styles.searchIcon} />
+                                        </span>
+                                        <p>{t('noResults', { query })}</p>
                                     </div>
                                 )}
                             </div>
@@ -201,15 +210,15 @@ export default function SearchBar({ placeholder = 'Blog yazılarında ara...' }:
                             <div className={styles.tips}>
                                 <div className={styles.tip}>
                                     <kbd>↑</kbd><kbd>↓</kbd>
-                                    <span>Sonuçlarda gezin</span>
+                                    <span>{t('tips.navigate')}</span>
                                 </div>
                                 <div className={styles.tip}>
                                     <kbd>Enter</kbd>
-                                    <span>Seçili yazıya git</span>
+                                    <span>{t('tips.select')}</span>
                                 </div>
                                 <div className={styles.tip}>
                                     <kbd>ESC</kbd>
-                                    <span>Kapat</span>
+                                    <span>{t('tips.close')}</span>
                                 </div>
                             </div>
                         )}

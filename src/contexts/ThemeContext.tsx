@@ -1,9 +1,8 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-
-export type Theme = 'light' | 'dark';
-export type Contrast = 'default' | 'medium' | 'high';
+import { ISettingsStorage, Theme, Contrast } from '@/domain/settings';
+import { defaultSettingsStorage } from '@/infrastructure/storage';
 
 interface ThemeContextType {
     theme: Theme;
@@ -15,10 +14,30 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-    const [theme, setThemeState] = useState<Theme>('light');
-    const [contrast, setContrastState] = useState<Contrast>('default');
-    const [isMounted, setIsMounted] = useState(false);
+interface ThemeProviderProps {
+    children: ReactNode;
+    storage?: ISettingsStorage;
+}
+
+/**
+ * Theme Provider
+ *
+ * Manages theme and contrast settings with optional storage injection.
+ * Defaults to localStorage adapter.
+ */
+export function ThemeProvider({ children, storage = defaultSettingsStorage }: ThemeProviderProps) {
+    // Lazy initialize from storage (only runs on client)
+    const [theme, setThemeState] = useState<Theme>(() => {
+        const saved = storage.getTheme();
+        if (saved) return saved;
+        if (typeof window === 'undefined') return 'light';
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return prefersDark ? 'dark' : 'light';
+    });
+
+    const [contrast, setContrastState] = useState<Contrast>(() => {
+        return storage.getContrast() || 'default';
+    });
 
     // Apply theme to document
     const applyTheme = (newTheme: Theme, newContrast: Contrast) => {
@@ -30,38 +49,26 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         }
     };
 
-    // Load saved preferences
+    // Apply theme on mount and when values change
     useEffect(() => {
-        const savedTheme = localStorage.getItem('theme') as Theme | null;
-        const savedContrast = localStorage.getItem('contrast') as Contrast | null;
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-        const initialContrast = savedContrast || 'default';
-
-        setThemeState(initialTheme);
-        setContrastState(initialContrast);
-        applyTheme(initialTheme, initialContrast);
-        setIsMounted(true);
-    }, []);
+        applyTheme(theme, contrast);
+    }, [theme, contrast]);
 
     const setTheme = (newTheme: Theme) => {
         setThemeState(newTheme);
-        localStorage.setItem('theme', newTheme);
+        storage.setTheme(newTheme);
         applyTheme(newTheme, contrast);
     };
 
     const setContrast = (newContrast: Contrast) => {
         setContrastState(newContrast);
-        localStorage.setItem('contrast', newContrast);
+        storage.setContrast(newContrast);
         applyTheme(theme, newContrast);
     };
 
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light');
     };
-
-
 
     return (
         <ThemeContext.Provider value={{ theme, contrast, setTheme, setContrast, toggleTheme }}>
@@ -77,3 +84,6 @@ export function useTheme() {
     }
     return context;
 }
+
+// Re-export types for consumers
+export type { Theme, Contrast } from '@/domain/settings';

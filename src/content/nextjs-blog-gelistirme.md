@@ -2,7 +2,7 @@
 title: "Next.js ile Modern Blog Geliştirme"
 excerpt: "Next.js kullanarak nasıl modern, performanslı ve SEO dostu bir blog sitesi oluşturabileceğinizi öğrenin."
 coverImage: "/developer.jpg"
-date: "2024-12-30"
+date: "2024-12-1"
 tags: ["Next.js", "React", "TypeScript", "Blog"]
 ---
 

@@ -10,8 +10,9 @@ interface ProfileCardProps {
     locale: Locale;
 }
 
-export default async function ProfileCard({ author = siteConfig.author, locale }: ProfileCardProps) {
+export default async function ProfileCard({ author = siteConfig.author }: ProfileCardProps) {
     const t = await getTranslations('profile');
+    const tCommon = await getTranslations('common');
 
     return (
         <aside className={styles.card}>
@@ -35,10 +36,10 @@ export default async function ProfileCard({ author = siteConfig.author, locale }
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles.linkButton}
-                        aria-label="GitHub"
+                        aria-label={tCommon('github')}
                     >
                         <GitHubIcon size={20} />
-                        <span>GitHub</span>
+                        <span>{tCommon('github')}</span>
                     </a>
                 )}
 
@@ -48,10 +49,10 @@ export default async function ProfileCard({ author = siteConfig.author, locale }
                         target="_blank"
                         rel="noopener noreferrer"
                         className={styles.linkButton}
-                        aria-label="LinkedIn"
+                        aria-label={tCommon('linkedin')}
                     >
                         <LinkedInIcon size={20} />
-                        <span>LinkedIn</span>
+                        <span>{tCommon('linkedin')}</span>
                     </a>
                 )}
 

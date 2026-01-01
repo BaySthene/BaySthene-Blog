@@ -27,9 +27,7 @@ export default async function HomePage({ params }: HomePageProps) {
     <div className={styles.container}>
       {/* SEO: Hidden but accessible H1 */}
       <h1 className={styles.srOnly}>
-        {locale === 'tr'
-          ? 'BaySthene Blog - Yazılım, Teknoloji ve Daha Fazlası'
-          : 'BaySthene Blog - Software, Technology and More'}
+        {t('seoTitle')}
       </h1>
 
       <div className={styles.layout}>

@@ -1,8 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { BlogPost, BlogPostMeta } from '@/lib/types';
-import { cache } from 'react';
 
 const POSTS_DIRECTORY = path.join(process.cwd(), 'src/content');
 
@@ -25,7 +23,7 @@ export class ContentRepository {
         }
     }
 
-    static getPostRaw(slug: string): { content: string; data: any } | null {
+    static getPostRaw(slug: string): { content: string; data: Record<string, unknown> } | null {
         this.ensureDirectory();
         try {
             const fullPath = path.join(POSTS_DIRECTORY, `${slug}.md`);

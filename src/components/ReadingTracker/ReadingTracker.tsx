@@ -17,11 +17,14 @@ interface ReadingTrackerProps {
  * - Read completion (when scroll > 90%)
  */
 export default function ReadingTracker({ slug, readingTime }: ReadingTrackerProps) {
-    const startTime = useRef(Date.now());
+    const startTime = useRef<number>(0);
     const maxScrollDepth = useRef(0);
     const hasTrackedComplete = useRef(false);
 
     useEffect(() => {
+        // Initialize start time on mount to avoid impure function during render
+        startTime.current = Date.now();
+
         // Track scroll depth
         const handleScroll = () => {
             const windowHeight = window.innerHeight;

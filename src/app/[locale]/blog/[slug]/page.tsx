@@ -55,8 +55,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     setRequestLocale(locale);
 
     const post = getPostBySlug(slug);
-    const t = await getTranslations('blog');
-    const tCommon = await getTranslations('common');
+    const tHome = await getTranslations('home');
 
     if (!post) {
         notFound();
@@ -72,7 +71,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         }
     );
 
-    const minReadText = locale === 'tr' ? 'dk okuma' : 'min read';
+    const minReadText = tHome('minRead');
     const backText = locale === 'tr' ? 'Ana Sayfaya Dön' : 'Back to Home';
 
     return (

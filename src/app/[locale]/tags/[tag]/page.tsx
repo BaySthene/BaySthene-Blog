@@ -1,12 +1,14 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { type Locale } from '@/i18n/config';
 import BlogCard from '@/components/BlogCard';
 import { getPostsByTag, getAllTags } from '@/lib/markdown';
 import styles from './page.module.css';
 
 interface TagPageProps {
-    params: Promise<{ tag: string }>;
+    params: Promise<{ tag: string; locale: Locale }>;
 }
 
 export async function generateStaticParams() {
@@ -19,15 +21,17 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
     const { tag } = await params;
     const decodedTag = decodeURIComponent(tag);
+    const t = await getTranslations('tags');
 
     return {
-        title: `${decodedTag} Yazıları`,
-        description: `"${decodedTag}" etiketli tüm blog yazıları`,
+        title: `${decodedTag} ${t('taggedPostsMetaTitle')}`,
+        description: `${decodedTag} ${t('taggedPostsMetaDescription')}`,
     };
 }
 
 export default async function TagPage({ params }: TagPageProps) {
-    const { tag } = await params;
+    const { tag, locale } = await params;
+    const t = await getTranslations('tags');
     const decodedTag = decodeURIComponent(tag);
     const posts = getPostsByTag(decodedTag);
 
@@ -42,11 +46,11 @@ export default async function TagPage({ params }: TagPageProps) {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <Link href="/tags" className={styles.backLink}>
+                <Link href={`/${locale}/tags`} className={styles.backLink}>
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                         <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
                     </svg>
-                    Tüm Etiketler
+                    {t('allTags')}
                 </Link>
 
                 <div className={styles.tagBadge}>
@@ -57,9 +61,9 @@ export default async function TagPage({ params }: TagPageProps) {
                 </div>
 
                 <h1 className={styles.title}>
-                    <span className={styles.highlight}>{originalTag}</span> Etiketli Yazılar
+                    <span className={styles.highlight}>{originalTag}</span> {t('taggedPosts')}
                 </h1>
-                <p className={styles.count}>{posts.length} yazı bulundu</p>
+                <p className={styles.count}>{posts.length} {t('postsCount')}</p>
             </div>
 
             <div className={styles.grid}>

@@ -1,8 +1,8 @@
 ---
-title: "CSS Grid Layout"
+title: "DENEME BLOG YAZISI"
 excerpt: "CSS Grid ile modern ve responsive layout'lar oluşturun."
 coverImage: "/developer.jpg"
-date: "2024-12-20"
+date: "2026-01-01"
 tags: ["CSS", "Grid", "Layout", "Responsive"]
 ---
 

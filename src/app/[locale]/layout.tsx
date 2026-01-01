@@ -7,7 +7,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackToTop from '@/components/BackToTop';
 import Analytics from '@/components/Analytics';
-import { siteConfig } from '@/lib/config';
 import { locales, type Locale } from '@/i18n/config';
 
 export async function generateStaticParams() {
@@ -17,7 +16,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({
     params
 }: {
-    params: any
+    params: Promise<{ locale: Locale }>
 }): Promise<Metadata> {
     const { locale } = await params;
 
@@ -64,7 +63,7 @@ export default async function LocaleLayout({
     params,
 }: {
     children: React.ReactNode;
-    params: any;
+    params: Promise<{ locale: Locale }>;
 }) {
     const { locale } = await params;
 

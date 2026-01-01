@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import styles from './ReadingProgress.module.css';
+import {useTranslations} from "next-intl";
 
 export default function ReadingProgress() {
     const [progress, setProgress] = useState(0);
+    const t = useTranslations('blog');
 
     useEffect(() => {
         const updateProgress = () => {
@@ -42,7 +44,7 @@ export default function ReadingProgress() {
             aria-valuenow={Math.round(progress)}
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-label="Okuma ilerlemesi"
+            aria-label={t('tableOfContentsReadingProgress')}
         >
             <div
                 className={styles.bar}

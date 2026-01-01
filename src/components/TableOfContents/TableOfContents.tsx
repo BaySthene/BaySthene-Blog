@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import styles from './TableOfContents.module.css';
+import {useTranslations} from "next-intl";
 
 interface TocHeading {
     id: string;
@@ -17,6 +18,7 @@ export default function TableOfContents({ contentSelector = 'article' }: TableOf
     const [headings, setHeadings] = useState<TocHeading[]>([]);
     const [activeId, setActiveId] = useState<string>('');
     const [progress, setProgress] = useState(0);
+    const t = useTranslations('blog');
 
     // Extract headings from content
     useEffect(() => {
@@ -107,7 +109,7 @@ export default function TableOfContents({ contentSelector = 'article' }: TableOf
     }
 
     return (
-        <nav className={styles.toc} aria-label="İçindekiler">
+        <nav className={styles.toc} aria-label={t('tableOfContents')}>
             <div className={styles.tocInner}>
                 <div className={styles.header}>
                     <div className={styles.headerIcon}>
@@ -116,8 +118,8 @@ export default function TableOfContents({ contentSelector = 'article' }: TableOf
                         </svg>
                     </div>
                     <div>
-                        <h4 className={styles.title}>İçindekiler</h4>
-                        <span className={styles.subtitle}>{headings.length} bölüm</span>
+                        <h4 className={styles.title}>{t('tableOfContents')}</h4>
+                        <span className={styles.subtitle}>{headings.length} {t('tableOfContentsSubtitle')}</span>
                     </div>
                 </div>
 
@@ -140,7 +142,7 @@ export default function TableOfContents({ contentSelector = 'article' }: TableOf
                 </ul>
 
                 <div className={styles.progress}>
-                    <span className={styles.progressLabel}>İlerleme</span>
+                    <span className={styles.progressLabel}>{t('tableOfContentsProgress')}</span>
                     <div className={styles.progressBar}>
                         <div
                             className={styles.progressFill}
