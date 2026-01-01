@@ -21,6 +21,7 @@ export { default as DarkModeIcon } from './DarkModeIcon';
 // Brand icons
 export { default as GitHubIcon } from './GitHubIcon';
 export { default as LinkedInIcon } from './LinkedInIcon';
+export { default as TwitterIcon } from './TwitterIcon';
 
 // Date/Time icons
 export { default as ScheduleIcon } from './ScheduleIcon';

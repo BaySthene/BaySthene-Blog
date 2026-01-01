@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import Header from '@/components/Header';
@@ -82,11 +83,13 @@ export default async function LocaleLayout({
         <html lang={locale} suppressHydrationWarning>
             <body>
                 <NextIntlClientProvider messages={messages}>
-                    <Header locale={locale} />
-                    <main>{children}</main>
-                    <Footer locale={locale} />
-                    <BackToTop />
-                    <Analytics />
+                    <ThemeProvider>
+                        <Header locale={locale} />
+                        <main>{children}</main>
+                        <Footer locale={locale} />
+                        <BackToTop />
+                        <Analytics />
+                    </ThemeProvider>
                 </NextIntlClientProvider>
             </body>
         </html>

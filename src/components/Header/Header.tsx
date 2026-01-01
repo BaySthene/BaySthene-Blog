@@ -7,10 +7,8 @@ import { useTranslations } from 'next-intl';
 import SearchBar from '@/components/SearchBar';
 import { SettingsIcon, LightModeIcon, DarkModeIcon, LanguageIcon } from '@/components/Icons';
 import { locales, type Locale } from '@/i18n/config';
+import { useTheme } from '@/contexts/ThemeContext';
 import styles from './Header.module.css';
-
-type Theme = 'light' | 'dark';
-type Contrast = 'default' | 'medium' | 'high';
 
 interface HeaderProps {
     locale: Locale;
@@ -20,9 +18,8 @@ export default function Header({ locale }: HeaderProps) {
     const t = useTranslations('common');
     const pathname = usePathname();
     const router = useRouter();
+    const { theme, contrast, setTheme, setContrast } = useTheme();
 
-    const [theme, setTheme] = useState<Theme>('light');
-    const [contrast, setContrast] = useState<Contrast>('default');
     const [isScrolled, setIsScrolled] = useState(false);
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
@@ -33,20 +30,6 @@ export default function Header({ locale }: HeaderProps) {
     // Mark component as mounted (client-side only)
     useEffect(() => {
         setIsMounted(true);
-    }, []);
-
-    // Load saved preferences
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme') as Theme | null;
-        const savedContrast = localStorage.getItem('contrast') as Contrast | null;
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-        const initialContrast = savedContrast || 'default';
-
-        setTheme(initialTheme);
-        setContrast(initialContrast);
-        applyTheme(initialTheme, initialContrast);
     }, []);
 
     // Handle scroll
@@ -70,27 +53,6 @@ export default function Header({ locale }: HeaderProps) {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
-
-    const applyTheme = (newTheme: Theme, newContrast: Contrast) => {
-        document.documentElement.setAttribute('data-theme', newTheme);
-        if (newContrast === 'default') {
-            document.documentElement.removeAttribute('data-contrast');
-        } else {
-            document.documentElement.setAttribute('data-contrast', newContrast);
-        }
-    };
-
-    const handleThemeChange = (newTheme: Theme) => {
-        setTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
-        applyTheme(newTheme, contrast);
-    };
-
-    const handleContrastChange = (newContrast: Contrast) => {
-        setContrast(newContrast);
-        localStorage.setItem('contrast', newContrast);
-        applyTheme(theme, newContrast);
-    };
 
     const switchLocale = (newLocale: Locale) => {
         if (newLocale === locale) {
@@ -153,14 +115,14 @@ export default function Header({ locale }: HeaderProps) {
                                     <div className={styles.settingsOptions}>
                                         <button
                                             className={`${styles.settingsOption} ${theme === 'light' ? styles.active : ''}`}
-                                            onClick={() => handleThemeChange('light')}
+                                            onClick={() => setTheme('light')}
                                         >
                                             <LightModeIcon size={18} aria-hidden="true" />
                                             <span>{t('light')}</span>
                                         </button>
                                         <button
                                             className={`${styles.settingsOption} ${theme === 'dark' ? styles.active : ''}`}
-                                            onClick={() => handleThemeChange('dark')}
+                                            onClick={() => setTheme('dark')}
                                         >
                                             <DarkModeIcon size={18} aria-hidden="true" />
                                             <span>{t('dark')}</span>
@@ -176,13 +138,13 @@ export default function Header({ locale }: HeaderProps) {
                                     <div className={styles.settingsOptions}>
                                         <button
                                             className={`${styles.settingsOption} ${contrast === 'default' ? styles.active : ''}`}
-                                            onClick={() => handleContrastChange('default')}
+                                            onClick={() => setContrast('default')}
                                         >
                                             <span>{t('default')}</span>
                                         </button>
                                         <button
                                             className={`${styles.settingsOption} ${contrast === 'high' ? styles.active : ''}`}
-                                            onClick={() => handleContrastChange('high')}
+                                            onClick={() => setContrast('high')}
                                         >
                                             <span>{t('high')}</span>
                                         </button>

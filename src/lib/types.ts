@@ -42,4 +42,9 @@ export interface SiteConfig {
   description: string;
   siteUrl: string;
   author: Author;
+  about: {
+    title: string;
+    description: string;
+  };
+  skills: string[];
 }
