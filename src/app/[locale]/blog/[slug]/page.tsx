@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { getPostBySlug, getAllPostSlugs, markdownToHtml } from '@/lib/markdown';
+import { getPostBySlug, getAllPostSlugs, markdownToHtml } from '@/application/adapters';
 import BlogContent from '@/components/BlogContent';
 import ReadingProgress from '@/components/ReadingProgress';
 import TableOfContents from '@/components/TableOfContents';
@@ -19,7 +19,7 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-    const slugs = getAllPostSlugs();
+    const slugs = await getAllPostSlugs();
     return locales.flatMap((locale) =>
         slugs.map((slug) => ({ locale, slug }))
     );
@@ -27,7 +27,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
     const { slug, locale } = await params;
-    const post = getPostBySlug(slug);
+    const post = await getPostBySlug(slug);
 
     if (!post) {
         return { title: locale === 'tr' ? 'Yazı Bulunamadı' : 'Post Not Found' };
@@ -54,7 +54,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
     setRequestLocale(locale);
 
-    const post = getPostBySlug(slug);
+    const post = await getPostBySlug(slug);
     const tHome = await getTranslations('home');
 
     if (!post) {

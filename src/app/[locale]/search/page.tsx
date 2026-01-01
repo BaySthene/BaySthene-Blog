@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import InfinitePostList from '@/components/InfinitePostList';
-import { searchPosts, getAllPosts } from '@/lib/markdown';
+import { searchPosts, getAllPosts } from '@/application/adapters';
 import { type Locale } from '@/i18n/config';
 import styles from './page.module.css';
 
@@ -28,7 +28,7 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
     setRequestLocale(locale);
 
     const t = await getTranslations('search');
-    const allPosts = query ? searchPosts(query) : getAllPosts();
+    const allPosts = query ? await searchPosts(query) : await getAllPosts();
 
     // Get initial posts for SSR
     const initialPosts = allPosts.slice(0, POSTS_PER_PAGE);

@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { type Locale } from '@/i18n/config';
-import { getAllTags } from '@/lib/markdown';
+import { getAllTags } from '@/application/adapters';
 import styles from './page.module.css';
 
 interface TagsPageProps {
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: TagsPageProps): Promise<Metad
 export default async function TagsPage({ params }: TagsPageProps) {
     const { locale } = await params;
     const t = await getTranslations('tags');
-    const tags = getAllTags();
+    const tags = await getAllTags();
 
     return (
         <div className={styles.container}>

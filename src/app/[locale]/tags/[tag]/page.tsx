@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { type Locale } from '@/i18n/config';
 import BlogCard from '@/components/BlogCard';
-import { getPostsByTag, getAllTags } from '@/lib/markdown';
+import { getPostsByTag, getAllTags } from '@/application/adapters';
 import styles from './page.module.css';
 
 interface TagPageProps {
@@ -12,7 +12,7 @@ interface TagPageProps {
 }
 
 export async function generateStaticParams() {
-    const tags = getAllTags();
+    const tags = await getAllTags();
     return tags.map(({ tag }) => ({
         tag: encodeURIComponent(tag.toLowerCase())
     }));
@@ -33,14 +33,14 @@ export default async function TagPage({ params }: TagPageProps) {
     const { tag, locale } = await params;
     const t = await getTranslations('tags');
     const decodedTag = decodeURIComponent(tag);
-    const posts = getPostsByTag(decodedTag);
+    const posts = await getPostsByTag(decodedTag);
 
     if (posts.length === 0) {
         notFound();
     }
 
     // Find original tag case
-    const tags = getAllTags();
+    const tags = await getAllTags();
     const originalTag = tags.find(t => t.tag.toLowerCase() === decodedTag.toLowerCase())?.tag || decodedTag;
 
     return (

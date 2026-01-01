@@ -4,7 +4,7 @@ import FeaturedPost from '@/components/FeaturedPost';
 import BlogCard from '@/components/BlogCard';
 import ProfileCard from '@/components/ProfileCard';
 import { ArrowDownIcon } from '@/components/Icons';
-import { getFeaturedPost, getRecentPosts } from '@/lib/markdown';
+import { getFeaturedPost, getRecentPosts } from '@/application/adapters';
 import { siteConfig } from '@/lib/config';
 import { type Locale } from '@/i18n/config';
 import styles from './page.module.css';
@@ -20,8 +20,8 @@ export default async function HomePage({ params }: HomePageProps) {
 
   const t = await getTranslations('home');
 
-  const featuredPost = getFeaturedPost();
-  const recentPosts = getRecentPosts(3);
+  const featuredPost = await getFeaturedPost();
+  const recentPosts = await getRecentPosts(3);
 
   return (
     <div className={styles.container}>
