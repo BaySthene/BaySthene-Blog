@@ -13,12 +13,23 @@ export async function generateStaticParams() {
     return locales.map((locale) => ({ locale }));
 }
 
+// Helper to validate locale
+function isValidLocale(locale: string): locale is Locale {
+    return locales.includes(locale as Locale);
+}
+
 export async function generateMetadata({
     params
 }: {
-    params: Promise<{ locale: Locale }>
+    params: Promise<{ locale: string }>
 }): Promise<Metadata> {
-    const { locale } = await params;
+    const { locale: localeParam } = await params;
+
+    // Validate and cast
+    if (!isValidLocale(localeParam)) {
+        notFound();
+    }
+    const locale = localeParam;
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
@@ -63,14 +74,15 @@ export default async function LocaleLayout({
     params,
 }: {
     children: React.ReactNode;
-    params: Promise<{ locale: Locale }>;
+    params: Promise<{ locale: string }>;
 }) {
-    const { locale } = await params;
+    const { locale: localeParam } = await params;
 
     // Validate that the incoming `locale` parameter is valid
-    if (!locales.includes(locale)) {
+    if (!isValidLocale(localeParam)) {
         notFound();
     }
+    const locale = localeParam;
 
     // Enable static rendering
     setRequestLocale(locale);
@@ -94,3 +106,4 @@ export default async function LocaleLayout({
         </html>
     );
 }
+
