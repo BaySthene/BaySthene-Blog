@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { getPostBySlug, getAllPostSlugs, markdownToHtml } from '@/application/adapters';
+import { ServiceFactory } from '@/application/factories';
 import BlogContent from '@/components/BlogContent';
 import ReadingProgress from '@/components/ReadingProgress';
 import TableOfContents from '@/components/TableOfContents';
@@ -19,34 +19,41 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-    const slugs = await getAllPostSlugs();
+    const { getAllSlugs } = ServiceFactory.getBlogServices();
+    const slugs = await getAllSlugs.execute();
     return locales.flatMap((locale) =>
-        slugs.map((slug) => ({ locale, slug }))
+        slugs.map((slug) => ({ locale, slug: slug.value }))
     );
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
     const { slug, locale } = await params;
-    const post = await getPostBySlug(slug);
+    const { getPostBySlug } = ServiceFactory.getBlogServices();
 
-    if (!post) {
-        return { title: locale === 'tr' ? 'Yazı Bulunamadı' : 'Post Not Found' };
-    }
+    try {
+        const post = await getPostBySlug.execute(slug);
 
-    return {
-        title: post.title,
-        description: post.excerpt,
-        alternates: {
-            canonical: `/${locale}/blog/${slug}`,
-        },
-        openGraph: {
+        if (!post) {
+            return { title: locale === 'tr' ? 'Yazı Bulunamadı' : 'Post Not Found' };
+        }
+
+        return {
             title: post.title,
             description: post.excerpt,
-            type: 'article',
-            publishedTime: post.date,
-            images: [post.coverImage],
-        },
-    };
+            alternates: {
+                canonical: `/${locale}/blog/${slug}`,
+            },
+            openGraph: {
+                title: post.title,
+                description: post.excerpt,
+                type: 'article',
+                publishedTime: post.date.toISOString(),
+                images: [post.coverImage],
+            },
+        };
+    } catch {
+        return { title: locale === 'tr' ? 'Yazı Bulunamadı' : 'Post Not Found' };
+    }
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
@@ -54,15 +61,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
     setRequestLocale(locale);
 
-    const post = await getPostBySlug(slug);
+    const { getPostBySlug, contentParser } = ServiceFactory.getBlogServices();
+
+    let post;
+    try {
+        post = await getPostBySlug.execute(slug);
+    } catch {
+        notFound();
+    }
+
     const tHome = await getTranslations('home');
 
     if (!post) {
         notFound();
     }
 
-    const content = await markdownToHtml(post.content);
-    const formattedDate = new Date(post.date).toLocaleDateString(
+    const content = await contentParser.toHtml(post.content);
+    const formattedDate = post.date.toLocaleDateString(
         locale === 'tr' ? 'tr-TR' : 'en-US',
         {
             year: 'numeric',
@@ -77,7 +92,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     return (
         <>
             <ReadingProgress />
-            <ReadingTracker slug={slug} readingTime={post.readingTime} />
+            <ReadingTracker slug={slug} readingTime={post.readingTimeMinutes} />
             <div className={styles.layout}>
                 <article className={styles.article}>
                     <div className={styles.header}>
@@ -87,9 +102,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                         </Link>
 
                         <div className={styles.meta}>
-                            <time dateTime={post.date}>{formattedDate}</time>
+                            <time dateTime={post.date.toISOString()}>{formattedDate}</time>
                             <span className={styles.separator}>•</span>
-                            <span>{post.readingTime} {minReadText}</span>
+                            <span>{post.readingTimeMinutes} {minReadText}</span>
                         </div>
 
                         <h1 className={styles.title}>{post.title}</h1>
@@ -98,11 +113,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                             <div className={styles.tags}>
                                 {post.tags.map((tag) => (
                                     <Link
-                                        key={tag}
-                                        href={`/${locale}/tags/${tag}`}
+                                        key={tag.value}
+                                        href={`/${locale}/tags/${tag.value}`}
                                         className={styles.tag}
                                     >
-                                        {tag}
+                                        {tag.value}
                                     </Link>
                                 ))}
                             </div>

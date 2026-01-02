@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og';
-import { getPostBySlug } from '@/lib/markdown';
+import { ServiceFactory } from '@/application/factories';
 
 export const alt = 'Blog Post';
 export const size = {
@@ -10,10 +10,21 @@ export const contentType = 'image/png';
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    const post = getPostBySlug(slug);
+    const { getPostBySlug } = ServiceFactory.getBlogServices();
 
-    const title = post?.title || 'Blog Post';
-    const tags = post?.tags?.slice(0, 3) || [];
+    let title = 'Blog Post';
+    let tags: string[] = [];
+
+    try {
+        const post = await getPostBySlug.execute(slug);
+        if (post) {
+            title = post.title;
+            tags = post.tags.slice(0, 3).map(t => t.value);
+        }
+    } catch {
+        // Use defaults
+    }
+
 
     return new ImageResponse(
         (

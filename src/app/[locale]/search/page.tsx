@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import InfinitePostList from '@/components/InfinitePostList';
-import { searchPosts, getAllPosts } from '@/application/adapters';
+import { ServiceFactory } from '@/application/factories';
+import { toPostViewModel } from '@/presentation/types';
 import { type Locale } from '@/i18n/config';
 import styles from './page.module.css';
 
@@ -28,7 +29,14 @@ export default async function SearchPage({ params, searchParams }: SearchPagePro
     setRequestLocale(locale);
 
     const t = await getTranslations('search');
-    const allPosts = query ? await searchPosts(query) : await getAllPosts();
+
+    const { getAllPosts, searchPosts } = ServiceFactory.getBlogServices();
+    const domainPosts = query
+        ? await searchPosts.execute(query)
+        : await getAllPosts.execute();
+
+    // Transform to presentation view models
+    const allPosts = domainPosts.map(toPostViewModel);
 
     // Get initial posts for SSR
     const initialPosts = allPosts.slice(0, POSTS_PER_PAGE);

@@ -1,11 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { searchPosts, getAllPosts } from '@/lib/markdown';
+import { ServiceFactory } from '@/application/factories';
 
 export async function GET(request: NextRequest) {
-    const searchParams = request.nextUrl.searchParams;
-    const query = searchParams.get('q');
+    const query = request.nextUrl.searchParams.get('q');
+    const { getAllPosts, searchPosts } = ServiceFactory.getBlogServices();
 
-    const posts = query ? searchPosts(query) : getAllPosts().slice(0, 5);
+    // Get domain posts
+    const domainPosts = query
+        ? await searchPosts.execute(query)
+        : (await getAllPosts.execute()).slice(0, 5);
+
+    // Transform to JSON-compatible format
+    const posts = domainPosts.map(post => ({
+        slug: post.slug.value,
+        title: post.title,
+        excerpt: post.excerpt,
+        coverImage: post.coverImage,
+        date: post.date.toISOString(),
+        readingTime: post.readingTimeMinutes,
+        tags: post.tags.map(t => t.value),
+    }));
 
     return NextResponse.json(posts);
 }

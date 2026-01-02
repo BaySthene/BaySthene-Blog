@@ -1,5 +1,5 @@
-import { IPostRepository } from '@/domain/blog';
-import { FileSystemPostRepository } from '@/infrastructure/persistence';
+import { IPostRepository, IContentParser } from '@/domain/blog';
+import { FileSystemPostRepository, MarkdownContentParser } from '@/infrastructure';
 import {
     GetPostBySlug,
     GetAllPosts,
@@ -22,6 +22,7 @@ export interface BlogServices {
     getAllTags: GetAllTags;
     getAllSlugs: GetAllSlugs;
     repository: IPostRepository;
+    contentParser: IContentParser;
 }
 
 /**
@@ -41,6 +42,7 @@ export class ServiceFactory {
     static getBlogServices(): BlogServices {
         if (!ServiceFactory.instance) {
             const repository = new FileSystemPostRepository(ServiceFactory.contentDir);
+            const contentParser = new MarkdownContentParser();
 
             ServiceFactory.instance = {
                 getPostBySlug: new GetPostBySlug(repository),
@@ -50,6 +52,7 @@ export class ServiceFactory {
                 getAllTags: new GetAllTags(repository),
                 getAllSlugs: new GetAllSlugs(repository),
                 repository,
+                contentParser,
             };
         }
         return ServiceFactory.instance;
@@ -59,7 +62,11 @@ export class ServiceFactory {
      * Creates blog services with a custom repository.
      * Useful for testing with mocks.
      */
-    static createBlogServices(repository: IPostRepository): BlogServices {
+    static createBlogServices(
+        repository: IPostRepository,
+        contentParser?: IContentParser
+    ): BlogServices {
+        const parser = contentParser ?? new MarkdownContentParser();
         return {
             getPostBySlug: new GetPostBySlug(repository),
             getAllPosts: new GetAllPosts(repository),
@@ -68,6 +75,7 @@ export class ServiceFactory {
             getAllTags: new GetAllTags(repository),
             getAllSlugs: new GetAllSlugs(repository),
             repository,
+            contentParser: parser,
         };
     }
 

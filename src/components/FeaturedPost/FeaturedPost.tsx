@@ -2,13 +2,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import styles from './FeaturedPost.module.css';
-import { BlogPostMeta } from '@/lib/types';
+import { PostViewModel } from '@/presentation/types';
 import { type Locale } from '@/i18n/config';
 
 interface FeaturedPostProps {
-    post: BlogPostMeta;
+    post: PostViewModel;
     locale: Locale;
 }
+
 
 export default async function FeaturedPost({ post, locale }: FeaturedPostProps) {
     const t = await getTranslations('home');

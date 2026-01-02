@@ -4,7 +4,8 @@ import FeaturedPost from '@/components/FeaturedPost';
 import BlogCard from '@/components/BlogCard';
 import ProfileCard from '@/components/ProfileCard';
 import { ArrowDownIcon } from '@/components/Icons';
-import { getFeaturedPost, getRecentPosts } from '@/application/adapters';
+import { ServiceFactory } from '@/application/factories';
+import { toPostViewModel } from '@/presentation/types';
 import { siteConfig } from '@/lib/config';
 import { type Locale } from '@/i18n/config';
 import styles from './page.module.css';
@@ -20,8 +21,13 @@ export default async function HomePage({ params }: HomePageProps) {
 
   const t = await getTranslations('home');
 
-  const featuredPost = await getFeaturedPost();
-  const recentPosts = await getRecentPosts(3);
+  const { getAllPosts } = ServiceFactory.getBlogServices();
+  const allPosts = await getAllPosts.execute();
+
+  // Transform domain posts to presentation view models
+  const posts = allPosts.map(toPostViewModel);
+  const featuredPost = posts.length > 0 ? posts[0] : null;
+  const recentPosts = posts.slice(1, 4);
 
   return (
     <div className={styles.container}>

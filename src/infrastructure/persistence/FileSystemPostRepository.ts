@@ -16,6 +16,8 @@ import {
  *
  * Implements IPostRepository using the local file system.
  * Reads markdown files from a content directory.
+ * 
+ * Returns proper Entity instances using factory methods.
  */
 export class FileSystemPostRepository implements IPostRepository {
     constructor(private readonly contentDir: string) { }
@@ -26,20 +28,42 @@ export class FileSystemPostRepository implements IPostRepository {
         }
     }
 
+    /**
+     * Parses raw markdown file to BlogPost Entity
+     */
     private parseRawPost(slug: string, fileContents: string): BlogPost {
         const { content, data } = matter(fileContents);
 
-        return {
-            slug: Slug.fromPersistence(slug),
+        // Use BlogPost.fromPersistence() factory method
+        return BlogPost.fromPersistence({
+            slug,
             title: (data.title as string) || 'Untitled',
             excerpt: (data.excerpt as string) || '',
             content,
             coverImage: (data.coverImage as string) || '/images/default-cover.jpg',
             date: data.date ? new Date(data.date as string) : new Date(),
             readingTimeMinutes: ReadingTime.fromContent(content).minutes,
-            tags: ((data.tags as string[]) || []).map(t => Tag.fromPersistence(t)),
+            tags: (data.tags as string[]) || [],
             authorName: (data.authorName as string) || 'Anonymous',
-        };
+        });
+    }
+
+    /**
+     * Parses raw markdown file to BlogPostMeta (lightweight, no content)
+     */
+    private parseRawMeta(slug: string, fileContents: string): BlogPostMeta {
+        const { content, data } = matter(fileContents);
+
+        // Use BlogPostMeta.fromPersistence() factory method
+        return BlogPostMeta.fromPersistence({
+            slug,
+            title: (data.title as string) || 'Untitled',
+            excerpt: (data.excerpt as string) || '',
+            coverImage: (data.coverImage as string) || '/images/default-cover.jpg',
+            date: data.date ? new Date(data.date as string) : new Date(),
+            readingTimeMinutes: ReadingTime.fromContent(content).minutes,
+            tags: (data.tags as string[]) || [],
+        });
     }
 
     async findBySlug(slug: Slug): Promise<BlogPost | null> {
@@ -65,18 +89,7 @@ export class FileSystemPostRepository implements IPostRepository {
                     const slug = fileName.replace(/\.md$/, '');
                     const fullPath = path.join(this.contentDir, fileName);
                     const fileContents = fs.readFileSync(fullPath, 'utf8');
-                    const post = this.parseRawPost(slug, fileContents);
-
-                    // Return meta without content
-                    return {
-                        slug: post.slug,
-                        title: post.title,
-                        excerpt: post.excerpt,
-                        coverImage: post.coverImage,
-                        date: post.date,
-                        readingTimeMinutes: post.readingTimeMinutes,
-                        tags: post.tags,
-                    } as BlogPostMeta;
+                    return this.parseRawMeta(slug, fileContents);
                 })
                 .sort((a, b) => b.date.getTime() - a.date.getTime());
 
@@ -127,14 +140,10 @@ export class FileSystemPostRepository implements IPostRepository {
     async search(query: string): Promise<BlogPostMeta[]> {
         if (!query.trim()) return [];
 
-        const lowerQuery = query.toLowerCase();
         const allPosts = await this.findAll();
 
-        return allPosts.filter(
-            (post) =>
-                post.title.toLowerCase().includes(lowerQuery) ||
-                post.excerpt.toLowerCase().includes(lowerQuery) ||
-                post.tags.some((tag) => tag.value.toLowerCase().includes(lowerQuery))
-        );
+        // Use domain entity's matchesSearch() method
+        return allPosts.filter((post) => post.matchesSearch(query));
     }
 }
+

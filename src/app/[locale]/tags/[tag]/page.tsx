@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { type Locale } from '@/i18n/config';
 import BlogCard from '@/components/BlogCard';
-import { getPostsByTag, getAllTags } from '@/application/adapters';
+import { ServiceFactory } from '@/application/factories';
+import { toPostViewModel } from '@/presentation/types';
 import styles from './page.module.css';
 
 interface TagPageProps {
@@ -12,9 +13,10 @@ interface TagPageProps {
 }
 
 export async function generateStaticParams() {
-    const tags = await getAllTags();
+    const { getAllTags } = ServiceFactory.getBlogServices();
+    const tags = await getAllTags.execute();
     return tags.map(({ tag }) => ({
-        tag: encodeURIComponent(tag.toLowerCase())
+        tag: encodeURIComponent(tag.value.toLowerCase())
     }));
 }
 
@@ -33,15 +35,18 @@ export default async function TagPage({ params }: TagPageProps) {
     const { tag, locale } = await params;
     const t = await getTranslations('tags');
     const decodedTag = decodeURIComponent(tag);
-    const posts = await getPostsByTag(decodedTag);
+
+    const { getPostsByTag, getAllTags } = ServiceFactory.getBlogServices();
+    const domainPosts = await getPostsByTag.execute(decodedTag);
+    const posts = domainPosts.map(toPostViewModel);
 
     if (posts.length === 0) {
         notFound();
     }
 
-    // Find original tag case
-    const tags = await getAllTags();
-    const originalTag = tags.find(t => t.tag.toLowerCase() === decodedTag.toLowerCase())?.tag || decodedTag;
+    // Find original tag case from domain
+    const domainTags = await getAllTags.execute();
+    const originalTag = domainTags.find(tc => tc.tag.value.toLowerCase() === decodedTag.toLowerCase())?.tag.value || decodedTag;
 
     return (
         <div className={styles.container}>

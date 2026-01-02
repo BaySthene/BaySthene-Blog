@@ -1,26 +1,8 @@
 import { Slug, Tag } from '../valueObjects';
+import { BlogPost, BlogPostMeta } from '../entities';
 
-/**
- * Blog Post Meta - Lightweight representation without content
- * Used for listings and search results
- */
-export interface BlogPostMeta {
-    readonly slug: Slug;
-    readonly title: string;
-    readonly excerpt: string;
-    readonly coverImage: string;
-    readonly date: Date;
-    readonly readingTimeMinutes: number;
-    readonly tags: readonly Tag[];
-}
-
-/**
- * Blog Post - Full post with content
- */
-export interface BlogPost extends BlogPostMeta {
-    readonly content: string;
-    readonly authorName: string;
-}
+// Re-export entity classes for convenience
+export { BlogPost, BlogPostMeta };
 
 /**
  * Tag with count - Used for tag listings
@@ -35,15 +17,19 @@ export interface TagCount {
  *
  * Defines the contract for blog post persistence.
  * Implementation details (file system, CMS, database) are hidden.
+ *
+ * Returns proper Entity/Value Object instances, not plain objects.
  */
 export interface IPostRepository {
     /**
      * Finds a single post by its slug
+     * @returns BlogPost entity or null if not found
      */
     findBySlug(slug: Slug): Promise<BlogPost | null>;
 
     /**
      * Returns all posts, ordered by date descending
+     * @returns Array of BlogPostMeta for lightweight listing
      */
     findAll(): Promise<BlogPostMeta[]>;
 
@@ -64,6 +50,7 @@ export interface IPostRepository {
 
     /**
      * Searches posts by query string
+     * Uses BlogPostMeta.matchesSearch() for domain-driven filtering
      */
     search(query: string): Promise<BlogPostMeta[]>;
 }

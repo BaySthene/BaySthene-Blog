@@ -4,11 +4,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import styles from './BlogCard.module.css';
-import { BlogPostMeta } from '@/lib/types';
+import { PostViewModel } from '@/presentation/types';
 import { getShimmerPlaceholder } from '@/lib/image';
 
 interface BlogCardProps {
-    post: BlogPostMeta;
+    post: PostViewModel;
+
     // Locale prop is optional now as we can use useLocale hook, 
     // but keeping it for compatibility with explicit passing if needed
     variant?: 'default' | 'compact';

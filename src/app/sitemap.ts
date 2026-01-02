@@ -1,10 +1,11 @@
 import { MetadataRoute } from 'next';
-import { getAllPosts } from '@/lib/markdown';
+import { ServiceFactory } from '@/application/factories';
 import { siteConfig } from '@/lib/config';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = siteConfig.siteUrl;
-    const posts = getAllPosts();
+    const { getAllPosts } = ServiceFactory.getBlogServices();
+    const posts = await getAllPosts.execute();
 
     // Static pages
     const staticPages: MetadataRoute.Sitemap = [
@@ -22,10 +23,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
     ];
 
-    // Blog post pages
+    // Blog post pages (use domain types directly)
     const blogPages: MetadataRoute.Sitemap = posts.map((post) => ({
-        url: `${baseUrl}/blog/${post.slug}`,
-        lastModified: new Date(post.date),
+        url: `${baseUrl}/blog/${post.slug.value}`,
+        lastModified: post.date,
         changeFrequency: 'monthly' as const,
         priority: 0.7,
     }));

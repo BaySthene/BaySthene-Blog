@@ -2,12 +2,12 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react';
 import BlogCard from '@/components/BlogCard';
-import { BlogPostMeta } from '@/lib/types';
+import { PostViewModel } from '@/presentation/types';
 import styles from './InfinitePostList.module.css';
-import {useTranslations} from "next-intl";
+import { useTranslations } from "next-intl";
 
 interface InfinitePostListProps {
-    initialPosts: BlogPostMeta[];
+    initialPosts: PostViewModel[];
     query?: string;
     postsPerPage?: number;
 }
@@ -17,7 +17,8 @@ export default function InfinitePostList({
     query,
     postsPerPage = 6
 }: InfinitePostListProps) {
-    const [posts, setPosts] = useState<BlogPostMeta[]>(initialPosts);
+    const [posts, setPosts] = useState<PostViewModel[]>(initialPosts);
+
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(initialPosts.length >= postsPerPage);
     const [isLoading, setIsLoading] = useState(false);

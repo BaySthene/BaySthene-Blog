@@ -1,4 +1,32 @@
-import { SiteConfig } from './types';
+/**
+ * Site Configuration Types
+ */
+
+interface SocialLinks {
+    github?: string;
+    linkedin?: string;
+    twitter?: string;
+    cv?: string;
+}
+
+interface Author {
+    name: string;
+    avatar: string;
+    bio: string;
+    links: SocialLinks;
+}
+
+interface SiteConfig {
+    title: string;
+    description: string;
+    siteUrl: string;
+    author: Author;
+    about: {
+        title: string;
+        description: string;
+    };
+    skills: string[];
+}
 
 export const siteConfig: SiteConfig = {
     title: 'BaySthene Blog',
@@ -11,7 +39,7 @@ export const siteConfig: SiteConfig = {
         links: {
             github: 'https://github.com/BaySthene',
             linkedin: 'https://www.linkedin.com/in/muhammet-keskin-187550255/',
-            twitter: 'https://twitter.com/BaySthene', // Added based on page.tsx
+            twitter: 'https://twitter.com/BaySthene',
             cv: '/baysthene-cv.pdf',
         },
     },
@@ -21,3 +49,4 @@ export const siteConfig: SiteConfig = {
     },
     skills: ['React', 'Next.js', 'TypeScript', 'Node.js', '.NET', 'C#', 'SQL', 'DevOps'],
 };
+

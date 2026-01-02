@@ -3,10 +3,17 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeStringify from 'rehype-stringify';
+import type { IContentParser } from '@/domain/blog/ports';
 
-export class MarkdownService {
-    static async toHtml(markdown: string): Promise<string> {
-        if (!markdown) return '';
+/**
+ * Markdown Content Parser
+ *
+ * Implements IContentParser using unified/remark/rehype pipeline.
+ * Converts markdown to HTML with syntax highlighting.
+ */
+export class MarkdownContentParser implements IContentParser {
+    async toHtml(content: string): Promise<string> {
+        if (!content) return '';
 
         try {
             const result = await unified()
@@ -14,20 +21,17 @@ export class MarkdownService {
                 .use(remarkRehype)
                 .use(rehypeHighlight, { detect: true })
                 .use(rehypeStringify)
-                .process(markdown);
+                .process(content);
 
             return result.toString();
         } catch (error) {
             console.error('Markdown processing error:', error);
-            // Return raw markdown or empty string as fallback, 
-            // depending on safety requirements. For valid HTML output, empty is safer.
             return '';
         }
     }
-
-    static calculateReadingTime(content: string): number {
-        const wordsPerMinute = 200;
-        const words = content.trim().split(/\s+/).length;
-        return Math.ceil(words / wordsPerMinute);
-    }
 }
+
+/**
+ * Default content parser instance
+ */
+export const defaultContentParser = new MarkdownContentParser();

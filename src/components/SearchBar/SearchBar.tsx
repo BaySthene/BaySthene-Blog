@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { SearchIcon } from '@/components/Icons';
 import styles from './SearchBar.module.css';
-import { BlogPostMeta } from '@/lib/types';
+import { PostViewModel } from '@/presentation/types';
 import { useLocale, useTranslations } from "next-intl";
 
 interface SearchBarProps {
@@ -31,7 +31,8 @@ function useDebounce<T>(value: T, delay: number): T {
 export default function SearchBar({ placeholder = 'Blog yazılarında ara...' }: SearchBarProps) {
     const [query, setQuery] = useState('');
     const [isOpen, setIsOpen] = useState(false);
-    const [results, setResults] = useState<BlogPostMeta[]>([]);
+    const [results, setResults] = useState<PostViewModel[]>([]);
+
     const [isLoading, setIsLoading] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const inputRef = useRef<HTMLInputElement>(null);
