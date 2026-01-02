@@ -1,56 +1,23 @@
-import { Slug, Tag } from '../valueObjects';
 import { BlogPost, BlogPostMeta } from '../entities';
+import { IPostReader } from './IPostReader';
+import { ITagRepository, TagCount } from './ITagRepository';
 
-// Re-export entity classes for convenience
+// Re-export entity classes and types for convenience
 export { BlogPost, BlogPostMeta };
-
-/**
- * Tag with count - Used for tag listings
- */
-export interface TagCount {
-    readonly tag: Tag;
-    readonly count: number;
-}
+export type { TagCount };
 
 /**
  * Post Repository Interface
  *
- * Defines the contract for blog post persistence.
- * Implementation details (file system, CMS, database) are hidden.
+ * Composite interface that combines:
+ * - IPostReader: Post reading and search operations
+ * - ITagRepository: Tag-related operations
  *
+ * Implementation details (file system, CMS, database, API) are hidden.
  * Returns proper Entity/Value Object instances, not plain objects.
+ *
+ * ISP: Consumers can depend on IPostReader or ITagRepository
+ * if they only need a subset of functionality.
  */
-export interface IPostRepository {
-    /**
-     * Finds a single post by its slug
-     * @returns BlogPost entity or null if not found
-     */
-    findBySlug(slug: Slug): Promise<BlogPost | null>;
+export interface IPostRepository extends IPostReader, ITagRepository { }
 
-    /**
-     * Returns all posts, ordered by date descending
-     * @returns Array of BlogPostMeta for lightweight listing
-     */
-    findAll(): Promise<BlogPostMeta[]>;
-
-    /**
-     * Returns posts matching a tag
-     */
-    findByTag(tag: Tag): Promise<BlogPostMeta[]>;
-
-    /**
-     * Returns all available slugs (for static generation)
-     */
-    getAllSlugs(): Promise<Slug[]>;
-
-    /**
-     * Returns all tags with their post counts
-     */
-    getAllTags(): Promise<TagCount[]>;
-
-    /**
-     * Searches posts by query string
-     * Uses BlogPostMeta.matchesSearch() for domain-driven filtering
-     */
-    search(query: string): Promise<BlogPostMeta[]>;
-}
