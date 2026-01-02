@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { type Locale } from '@/i18n/config';
 import SearchBar from '@/components/SearchBar';
 import { useTranslations } from 'next-intl';
@@ -59,7 +60,13 @@ export default function Header({ locale }: HeaderProps) {
             <div className={styles.container}>
                 {/* Logo */}
                 <Link href={basePath} className={styles.logo}>
-                    <span className={styles.logoIcon}>📝</span>
+                    <Image
+                        src="/icons/favicon-32x32.png"
+                        alt="BaySthene"
+                        width={32}
+                        height={32}
+                        className={styles.logoIcon}
+                    />
                     <span className={styles.logoText}>BaySthene</span>
                 </Link>
 

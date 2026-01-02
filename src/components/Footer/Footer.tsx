@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { siteConfig } from '@/lib/config';
 import { GitHubIcon, LinkedInIcon } from '@/components/Icons';
@@ -22,7 +23,13 @@ export default function Footer({ locale }: FooterProps) {
                     {/* Brand */}
                     <div className={styles.brand}>
                         <Link href={basePath} className={styles.logo}>
-                            <span className={styles.logoIcon}>📝</span>
+                            <Image
+                                src="/icons/favicon-32x32.png"
+                                alt="BaySthene"
+                                width={24}
+                                height={24}
+                                className={styles.logoIcon}
+                            />
                             <span className={styles.logoText}>BaySthene</span>
                         </Link>
                         <p className={styles.description}>
