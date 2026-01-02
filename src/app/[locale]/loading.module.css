@@ -1,0 +1,131 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 24px;
+}
+
+/* Skeleton base */
+.skeleton {
+    background: linear-gradient(90deg,
+            var(--md-sys-color-surface-container) 0%,
+            var(--md-sys-color-surface-container-high) 50%,
+            var(--md-sys-color-surface-container) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--md-sys-shape-corner-small);
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Hero section */
+.hero {
+    margin-bottom: 64px;
+    padding: 48px 0;
+}
+
+.heroContent {
+    max-width: 600px;
+}
+
+.tagline {
+    width: 120px;
+    height: 24px;
+    margin-bottom: 16px;
+}
+
+.title {
+    width: 100%;
+    max-width: 500px;
+    height: 48px;
+    margin-bottom: 16px;
+}
+
+.subtitle {
+    width: 80%;
+    height: 24px;
+}
+
+/* Section */
+.section {
+    margin-bottom: 48px;
+}
+
+.sectionTitle {
+    width: 200px;
+    height: 32px;
+    margin-bottom: 32px;
+}
+
+/* Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+/* Card skeleton */
+.card {
+    background-color: var(--md-sys-color-surface-container);
+    border-radius: var(--md-sys-shape-corner-large);
+    overflow: hidden;
+}
+
+.cardImage {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 0;
+}
+
+.cardContent {
+    padding: 20px;
+}
+
+.cardMeta {
+    width: 140px;
+    height: 16px;
+    margin-bottom: 12px;
+}
+
+.cardTitle {
+    width: 100%;
+    height: 24px;
+    margin-bottom: 12px;
+}
+
+.cardExcerpt {
+    width: 100%;
+    height: 16px;
+    margin-bottom: 8px;
+}
+
+.cardExcerpt.short {
+    width: 60%;
+}
+
+@media (max-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 24px 16px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .title {
+        height: 36px;
+    }
+}

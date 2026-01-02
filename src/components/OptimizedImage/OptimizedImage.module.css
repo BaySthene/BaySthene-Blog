@@ -1,0 +1,62 @@
+.wrapper {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--md-sys-color-surface-container) 0%, var(--md-sys-color-surface-container-high) 100%);
+    border-radius: var(--md-sys-shape-corner-medium);
+}
+
+.image {
+    transition: opacity var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized),
+        transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized);
+}
+
+.wrapper:not(.loaded) .image {
+    opacity: 0;
+    transform: scale(1.02);
+}
+
+.wrapper.loaded .image {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: var(--md-sys-color-surface-container-high);
+    border-radius: var(--md-sys-shape-corner-medium);
+    color: var(--md-sys-color-on-surface-variant);
+    min-height: 200px;
+}
+
+.fallback span {
+    font-size: var(--md-sys-typescale-body-small-size);
+}
+
+/* Skeleton animation */
+.wrapper:not(.loaded)::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.05) 50%,
+            transparent 100%);
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}

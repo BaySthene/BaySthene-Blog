@@ -1,0 +1,199 @@
+/* ===========================================
+   Custom Syntax Highlighting Theme
+   Based on M3 Design Tokens - Light/Dark Mode
+   =========================================== */
+
+/* Base code block styling */
+pre code.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 1.25em;
+}
+
+code.hljs {
+    padding: 3px 5px;
+}
+
+/* Light Mode Theme */
+.hljs {
+    background: var(--md-sys-color-surface-container-highest);
+    color: var(--md-sys-color-on-surface);
+}
+
+/* Comments */
+.hljs-comment,
+.hljs-quote {
+    color: rgb(119 118 124);
+    font-style: italic;
+}
+
+/* Keywords, built-ins */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-addition {
+    color: rgb(69 81 186);
+    font-weight: 500;
+}
+
+/* Strings */
+.hljs-string,
+.hljs-title,
+.hljs-section,
+.hljs-attribute,
+.hljs-literal,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type {
+    color: rgb(126 86 36);
+}
+
+/* Numbers, constants */
+.hljs-number,
+.hljs-regexp,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title.class_ {
+    color: rgb(81 91 142);
+}
+
+/* Functions, methods */
+.hljs-built_in,
+.hljs-title.function_,
+.hljs-class .hljs-title {
+    color: rgb(95 106 213);
+}
+
+/* Variables, params */
+.hljs-variable,
+.hljs-attr,
+.hljs-params {
+    color: var(--md-sys-color-on-surface);
+}
+
+/* Tags (HTML/XML) */
+.hljs-tag {
+    color: rgb(69 81 186);
+}
+
+.hljs-name {
+    color: rgb(69 81 186);
+    font-weight: 500;
+}
+
+/* Deletion */
+.hljs-deletion {
+    color: rgb(144 7 8);
+    background-color: rgba(144, 7, 8, 0.1);
+}
+
+/* Addition */
+.hljs-addition {
+    color: rgb(30 120 50);
+    background-color: rgba(30, 120, 50, 0.1);
+}
+
+/* Emphasis and strong */
+.hljs-emphasis {
+    font-style: italic;
+}
+
+.hljs-strong {
+    font-weight: bold;
+}
+
+/* Dark Mode Theme */
+[data-theme="dark"] .hljs {
+    background: var(--md-sys-color-surface-container-highest);
+    color: var(--md-sys-color-on-surface);
+}
+
+[data-theme="dark"] .hljs-comment,
+[data-theme="dark"] .hljs-quote {
+    color: rgb(145 144 150);
+}
+
+[data-theme="dark"] .hljs-keyword,
+[data-theme="dark"] .hljs-selector-tag {
+    color: rgb(189 194 255);
+    font-weight: 500;
+}
+
+[data-theme="dark"] .hljs-string,
+[data-theme="dark"] .hljs-title,
+[data-theme="dark"] .hljs-section,
+[data-theme="dark"] .hljs-attribute,
+[data-theme="dark"] .hljs-literal,
+[data-theme="dark"] .hljs-template-tag,
+[data-theme="dark"] .hljs-template-variable,
+[data-theme="dark"] .hljs-type {
+    color: rgb(245 191 131);
+}
+
+[data-theme="dark"] .hljs-number,
+[data-theme="dark"] .hljs-regexp,
+[data-theme="dark"] .hljs-symbol,
+[data-theme="dark"] .hljs-bullet,
+[data-theme="dark"] .hljs-link,
+[data-theme="dark"] .hljs-meta,
+[data-theme="dark"] .hljs-selector-id,
+[data-theme="dark"] .hljs-title.class_ {
+    color: rgb(185 195 254);
+}
+
+[data-theme="dark"] .hljs-built_in,
+[data-theme="dark"] .hljs-title.function_,
+[data-theme="dark"] .hljs-class .hljs-title {
+    color: rgb(123 135 243);
+}
+
+[data-theme="dark"] .hljs-tag,
+[data-theme="dark"] .hljs-name {
+    color: rgb(189 194 255);
+}
+
+[data-theme="dark"] .hljs-deletion {
+    color: rgb(255 180 170);
+    background-color: rgba(255, 180, 170, 0.1);
+}
+
+[data-theme="dark"] .hljs-addition {
+    color: rgb(130 220 150);
+    background-color: rgba(130, 220, 150, 0.1);
+}
+
+/* Line numbers styling (optional) */
+.hljs-ln-numbers {
+    user-select: none;
+    text-align: right;
+    color: var(--md-sys-color-outline);
+    padding-right: 1em !important;
+    border-right: 1px solid var(--md-sys-color-outline-variant);
+    margin-right: 1em;
+}
+
+/* Copy button styling */
+pre {
+    position: relative;
+}
+
+pre .copy-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    background: var(--md-sys-color-surface-container);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: var(--md-sys-shape-corner-small);
+    color: var(--md-sys-color-on-surface-variant);
+    font-size: var(--md-sys-typescale-label-small-size);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+}
+
+pre:hover .copy-button {
+    opacity: 1;
+}

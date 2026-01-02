@@ -1,0 +1,107 @@
+{
+    "common": {
+        "home": "Home",
+        "allPosts": "All Posts",
+        "tags": "Tags",
+        "about": "About",
+        "search": "Search...",
+        "theme": "Theme",
+        "language": "Language",
+        "contrast": "Contrast",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System",
+        "default": "Default",
+        "high": "High",
+        "links": "Links",
+        "social": "Social",
+        "copyright": "© 2025 BaySthene. All rights reserved.",
+        "github": "GitHub",
+        "linkedin": "LinkedIn",
+        "twitter": "Twitter",
+        "backToTop": "Back to top"
+    },
+    "home": {
+        "latestPost": "Latest Post",
+        "recentPosts": "Recent Posts",
+        "viewAll": "View All Posts",
+        "noPosts": "No blog posts yet",
+        "comingSoon": "Content coming soon!",
+        "readMore": "Read More",
+        "minRead": "min read",
+        "seoTitle": "BaySthene Blog - Software, Technology and More"
+    },
+    "blog": {
+        "share": "Share",
+        "shareOn": "Share on {platform}",
+        "copyLink": "Copy Link",
+        "copied": "Copied!",
+        "relatedPosts": "Related Posts",
+        "tableOfContents": "Table of Contents",
+        "tableOfContentsSubtitle": "part",
+        "tableOfContentsProgress": "Progress",
+        "tableOfContentsReadingProgress": "Reading Progress",
+        "loadingMore": "Loading more...",
+        "haveSeenAllTheWritings": "You have seen all the writings."
+    },
+    "profile": {
+        "downloadCV": "Download CV"
+    },
+    "search": {
+        "title": "All Posts",
+        "placeholder": "Search posts...",
+        "noResults": "No results found for \"{query}\"",
+        "results": "{count} posts found",
+        "loading": "Loading",
+        "close": "Close",
+        "tips": {
+            "navigate": "Navigate results",
+            "select": "Go to selected post",
+            "close": "Close"
+        },
+        "readingTime": "min",
+        "searchPageTitle": "Search",
+        "searchPageDescription": "Search blog posts",
+        "resultsFor": "results",
+        "postsFound": "found",
+        "postsAvailable": "available",
+        "posts": "posts",
+        "noMatchingPosts": "No posts matching. Try different keywords."
+    },
+    "tags": {
+        "title": "Tags",
+        "allTags": "All Tags",
+        "postsTagged": "Posts tagged with \"{tag}\"",
+        "metaDescription": "Tags list for blog posts",
+        "description": "Discover all blog posts by category",
+        "emptyState": "No tags yet.",
+        "taggedPosts": "Tagged Posts",
+        "taggedPostsMetaTitle": "Posts",
+        "taggedPostsMetaDescription": "all blog posts tagged with",
+        "postsCount": "posts found"
+    },
+    "about": {
+        "title": "About Me",
+        "metaDescription": "About the BaySthene Blog author",
+        "role": "Software Developer & Blog Writer",
+        "expertiseTitle": "My Expertise",
+        "contactTitle": "Contact",
+        "blogAboutTitle": "About the Blog",
+        "blogDescription": "This blog is built with Next.js 15, TypeScript, and Material Design 3. Performance, accessibility, and modern design principles are prioritized.",
+        "viewPostsCta": "Browse Posts"
+    },
+    "codeblock": {
+        "copy": "Copy",
+        "copied": "Copied",
+        "copyCode": "Copy code",
+        "codeCopied": "Copied"
+    },
+    "error": {
+        "notFound": "Page Not Found",
+        "notFoundDesc": "The page you're looking for doesn't exist.",
+        "goHome": "Go Home",
+        "somethingWrong": "Something went wrong!",
+        "tryAgain": "Try Again",
+        "ImageCouldntLoad": "Image Could Not Be Uploaded"
+    }
+}

@@ -1,0 +1,107 @@
+{
+    "common": {
+        "home": "Ana Sayfa",
+        "allPosts": "Tüm Yazılar",
+        "tags": "Etiketler",
+        "about": "Hakkında",
+        "search": "Ara...",
+        "theme": "Tema",
+        "language": "Dil",
+        "contrast": "Kontrast",
+        "light": "Açık",
+        "dark": "Koyu",
+        "system": "Sistem",
+        "default": "Varsayılan",
+        "high": "Yüksek",
+        "links": "Bağlantılar",
+        "social": "Sosyal",
+        "copyright": "© 2025 BaySthene. Tüm hakları saklıdır.",
+        "github": "GitHub",
+        "linkedin": "LinkedIn",
+        "twitter": "Twitter",
+        "backToTop": "Sayfa başına dön"
+    },
+    "home": {
+        "latestPost": "Son Yazı",
+        "recentPosts": "Diğer Yazılar",
+        "viewAll": "Tüm Yazıları Gör",
+        "noPosts": "Henüz blog yazısı yok",
+        "comingSoon": "Yakında içerikler eklenecek!",
+        "readMore": "Devamını Oku",
+        "minRead": "dk okuma",
+        "seoTitle": "BaySthene Blog - Yazılım, Teknoloji ve Daha Fazlası"
+    },
+    "blog": {
+        "share": "Paylaş",
+        "shareOn": "{platform} üzerinde paylaş",
+        "copyLink": "Linki Kopyala",
+        "copied": "Kopyalandı!",
+        "relatedPosts": "İlgili Yazılar",
+        "tableOfContents": "İçindekiler",
+        "tableOfContentsSubtitle": "bölüm",
+        "tableOfContentsProgress": "İlerleme",
+        "tableOfContentsReadingProgress": "Okuma İlerlemesi",
+        "loadingMore": "Daha fazla yükleniyor...",
+        "haveSeenAllTheWritings": "Tüm yazıları gördünüz!."
+    },
+    "profile": {
+        "downloadCV": "CV İndir"
+    },
+    "search": {
+        "title": "Tüm Yazılar",
+        "placeholder": "Blog yazılarında ara...",
+        "noResults": "\"{query}\" için sonuç bulunamadı",
+        "results": "{count} yazı bulundu",
+        "loading": "Yükleniyor",
+        "close": "Kapat",
+        "tips": {
+            "navigate": "Sonuçlarda gezin",
+            "select": "Seçili yazıya git",
+            "close": "Kapat"
+        },
+        "readingTime": "dk",
+        "searchPageTitle": "Arama",
+        "searchPageDescription": "Blog yazılarında arama yapın",
+        "resultsFor": "için sonuçlar",
+        "postsFound": "bulundu",
+        "postsAvailable": "mevcut",
+        "posts": "yazı",
+        "noMatchingPosts": "ile eşleşen yazı bulunamadı. Farklı anahtar kelimeler deneyin."
+    },
+    "tags": {
+        "title": "Etiketler",
+        "allTags": "Tüm Etiketler",
+        "postsTagged": "\"{tag}\" etiketli yazılar",
+        "metaDescription": "Blog yazılarına göre etiket listesi",
+        "description": "Tüm blog yazılarını kategorilere göre keşfedin",
+        "emptyState": "Henüz etiket yok.",
+        "taggedPosts": "Etiketli Yazılar",
+        "taggedPostsMetaTitle": "Yazıları",
+        "taggedPostsMetaDescription": "etiketli tüm blog yazıları",
+        "postsCount": "yazı bulundu"
+    },
+    "about": {
+        "title": "Hakkımda",
+        "metaDescription": "BaySthene Blog yazarı hakkında bilgi",
+        "role": "Yazılım Geliştirici & Blog Yazarı",
+        "expertiseTitle": "Uzmanlık Alanlarım",
+        "contactTitle": "İletişim",
+        "blogAboutTitle": "Blog Hakkında",
+        "blogDescription": "Bu blog Next.js 15, TypeScript ve Material Design 3 ile geliştirilmiştir. Performans, erişilebilirlik ve modern tasarım ilkelerine önem verilmiştir.",
+        "viewPostsCta": "Yazılara Göz At"
+    },
+    "codeblock": {
+        "copy": "Kopyala",
+        "copied": "Kopyalandı",
+        "copyCode": "Kodu kopyala",
+        "codeCopied": "Kopyalandı"
+    },
+    "error": {
+        "notFound": "Sayfa Bulunamadı",
+        "notFoundDesc": "Aradığınız sayfa mevcut değil.",
+        "goHome": "Ana Sayfaya Dön",
+        "somethingWrong": "Bir şeyler ters gitti!",
+        "tryAgain": "Tekrar Dene",
+        "ImageCouldntLoad": "Görsel Yüklenemedi"
+    }
+}

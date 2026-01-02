@@ -1,0 +1,1 @@
+export { FileSystemPostRepository } from './FileSystemPostRepository';
